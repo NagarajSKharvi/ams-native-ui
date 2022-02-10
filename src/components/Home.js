@@ -4,12 +4,16 @@ import React from "react";
 const { width, height } = Dimensions.get("window");
 
 export default function Home() {
+  const states = [
+    { id: "1", description: "sd", done: false, targetDate: new Date() },
+    { id: "2", description: "sd", done: false, targetDate: new Date() },
+    { id: "2", description: "sd", done: false, targetDate: new Date() },
+    { id: "2", description: "sd", done: false, targetDate: new Date() },
+    { id: "2", description: "sd", done: false, targetDate: new Date() },
+  ];
+
   return (
-    <View
-      style={{
-        height,
-      }}
-    >
+    <View>
       <Text>Welcome</Text>
     </View>
   );

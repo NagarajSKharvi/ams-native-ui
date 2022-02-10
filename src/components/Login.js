@@ -13,11 +13,23 @@ import {
 const { width, height } = Dimensions.get("window");
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [hasLoginFailed, setHasLoginFailed] = useState(false);
 
-  const onClickButton = () => {
-    navigation.navigate("Home");
+  const onClickButton = (values) => {
+    if (email === "A" && password === "") {
+      console.log("Success");
+      navigation.navigate("GH");
+    } else {
+      console.log("Failed");
+      setHasLoginFailed(true);
+      simpleAlertHandler();
+    }
   };
+  const simpleAlertHandler = () => {
+    alert("Invalid Credentials");
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="orange" />
@@ -51,9 +63,8 @@ export default function Login({ navigation }) {
         onChangeText={(text) => {
           setPassword(text);
         }}
-        value={Password}
+        value={password}
       />
-
       <Button
         title="Login"
         style={styles.button}
