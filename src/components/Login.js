@@ -17,9 +17,9 @@ export default function Login({ navigation }) {
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
 
   const onClickButton = (values) => {
-    if (email === "A" && password === "") {
+    if (email === "" && password === "") {
       console.log("Success");
-      navigation.navigate("GH");
+      navigation.navigate("Home");
     } else {
       console.log("Failed");
       setHasLoginFailed(true);

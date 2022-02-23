@@ -1,23 +1,35 @@
-import React, { Component, useState } from "react";
-import { isUserLoggedIn } from "./AuthenticationService";
-import axios from "axios";
+const studentsUrl = "http://192.168.1.102:9999/ams/students";
 
 class StudentsService {
   createStudent() {
-    return axios.post(`http://localhost:9999/ams/students`);
+    return await fetch("http://192.168.1.102:9999/ams/students", {
+      method: "POST",
+      body: JSON.stringify({
+        rollNumber,
+        firstName,
+        middleName,
+        lastName,
+        dob,
+        mobileNumber,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  getStudent() {
-    // return axios.get(`http://localhost:9999/ams/students/${id}`);
-    return axios.get(`http://localhost:9999/ams/students/5`);
+  getStudent(id) {
+    console.log(id);
+    return fetch(`${studentsUrl}/${id}`);
   }
 
   getStudentsList() {
-    return axios.get("http://localhost:9999/ams/students");
+    return fetch(studentsUrl);
   }
 
   deleteStudent(id) {
-    return axios.delete(`http://localhost:9999/ams/students/${id}`);
+    console.log(id);
+    return fetch(`${studentsUrl}/${id}`, {
+      method: "DELETE",
+    });
   }
 }
 

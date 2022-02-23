@@ -9,7 +9,8 @@ import {
 } from "react-native";
 
 // get data from this URL!
-const studentsUrl = "http://192.168.1.102:9999/ams/students";
+const studentsUrl = "http://192.168.1.103:9999/ams/students";
+// const studentsUrl = "http://192.168.0.142:9999/ams/students";
 
 const GH2 = () => {
   const [isLoading, setLoading] = useState(true);

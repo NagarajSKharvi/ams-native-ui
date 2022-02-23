@@ -6,9 +6,10 @@ import {
   SafeAreaView,
   ActivityIndicator,
   FlatList,
+  LinkButton,
 } from "react-native";
 
-const GH2 = () => {
+const GH3 = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const studData = [
@@ -106,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GH2;
+export default GH3;
