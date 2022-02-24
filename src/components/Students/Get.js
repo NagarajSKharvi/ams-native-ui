@@ -15,48 +15,11 @@ const Get = ({ route, navigation }) => {
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const goBack = () => {
-    console.log("Went back");
-    navigation.navigate("StudentList");
-  };
-
-  const deleteItem = async () => {
-    setLoading(true);
-    await fetch(`http://192.168.1.102:9999/ams/students/${pId}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false);
-        navigation.navigate("StudentList");
-      });
-  };
-
-  const deleteAlert = () =>
-    Alert.alert("Alert Title", "My Alert Msg", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          console.log("Ok Pressed");
-          deleteItem();
-        },
-      },
-    ]);
-
   useEffect(() => {
-    console.log("I am here");
     console.log(pId);
-    fetch(`http://192.168.1.102:9999/ams/students/${pId}`)
+    fetch(global.hostUrl + `/students/${pId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((data) => {
-        console.log(data);
         setId(data.id);
         setRollNumber(data.rollNumber);
         setFirstName(data.firstName);
@@ -68,6 +31,41 @@ const Get = ({ route, navigation }) => {
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false)); // change loading state
   }, []);
+
+  const goBack = () => {
+    navigation.navigate("StudentList");
+  };
+
+  const studentDeleteAlert = () =>
+    Alert.alert("Are you sure you want to delete this Student?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          console.log("Ok Pressed");
+          studentDelete();
+        },
+      },
+    ]);
+
+  const studentDelete = async () => {
+    setLoading(true);
+    await fetch(global.hostUrl + `/students/${pId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+        navigation.navigate("StudentList");
+      });
+  };
+
   return (
     <View>
       <Appbar.Header style={styles.header}>
@@ -106,7 +104,7 @@ const Get = ({ route, navigation }) => {
         <Text>Edit</Text>
       </Button>
       <Text></Text>
-      <Button mode="contained" onPress={deleteAlert}>
+      <Button mode="contained" onPress={studentDeleteAlert}>
         <Text>Delete</Text>
       </Button>
     </View>

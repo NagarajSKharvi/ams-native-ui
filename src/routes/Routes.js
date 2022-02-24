@@ -7,6 +7,7 @@ import SList from "../components/Students/List";
 import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
 import SCreate from "../components/Students/Create";
+import Attendence from "../components/Attendence/Attendence";
 
 const Stack = createNativeStackNavigator();
 function Routes() {
@@ -40,6 +41,13 @@ function Routes() {
           <Stack.Screen
             name="StudentCreate"
             component={SCreate}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Attendence"
+            component={Attendence}
             options={{
               headerShown: false,
             }}

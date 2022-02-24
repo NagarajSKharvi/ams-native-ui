@@ -14,15 +14,24 @@ const Edit = ({ route, navigation }) => {
   const [mobileNumber, setMobileNumber] = useState(pMobileNumber);
   const [loading, isLoading] = useState(false);
 
+  useEffect(() => {
+    setId(pId);
+    setRollNumber(pRollNumber);
+    setFirstName(pFName);
+    setMiddleName(pMName);
+    setLastName(pLName);
+    setDob(pDob);
+    setMobileNumber(pMobileNumber);
+  }, [pId, pFName]);
+
   const goBack = () => {
-    console.log("Went back");
     navigation.navigate("StudentView");
   };
 
-  const editItem = async () => {
+  const studentEdit = async () => {
     isLoading(true);
-    await fetch("http://192.168.1.102:9999/ams/students", {
-      method: "POST",
+    await fetch(global.hostUrl + "/students", {
+      method: "PUT",
       body: JSON.stringify({
         id,
         rollNumber,
@@ -36,7 +45,7 @@ const Edit = ({ route, navigation }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data added successfully", data);
+        console.log("data updated successfully", data);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -44,15 +53,7 @@ const Edit = ({ route, navigation }) => {
         navigation.navigate("StudentList");
       });
   };
-  useEffect(() => {
-    setId(pId);
-    setRollNumber(pRollNumber);
-    setFirstName(pFName);
-    setMiddleName(pMName);
-    setLastName(pLName);
-    setDob(pDob);
-    setMobileNumber(pMobileNumber);
-  }, [pId, pFName]);
+
   return (
     <View>
       <Appbar.Header style={styles.header}>
@@ -98,7 +99,7 @@ const Edit = ({ route, navigation }) => {
 
       <Button
         mode="contained"
-        onPress={editItem}
+        onPress={studentEdit}
         style={{
           marginTop: 20,
         }}

@@ -11,14 +11,15 @@ const Create = ({ navigation }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [loading, isLoading] = useState(false);
 
+  useEffect(() => {}, []);
+
   const goBack = () => {
-    console.log("Went back");
     navigation.navigate("StudentList", { reload: true });
   };
 
-  const editItem = async () => {
+  const studentCreate = async () => {
     isLoading(true);
-    await fetch("http://192.168.1.102:9999/ams/students", {
+    await fetch(global.hostUrl + "/students", {
       method: "POST",
       body: JSON.stringify({
         rollNumber,
@@ -40,7 +41,7 @@ const Create = ({ navigation }) => {
         navigation.navigate("StudentList");
       });
   };
-  useEffect(() => {}, []);
+
   return (
     <View>
       <Appbar.Header style={styles.header}>
@@ -80,7 +81,7 @@ const Create = ({ navigation }) => {
 
       <Button
         mode="contained"
-        onPress={editItem}
+        onPress={studentCreate}
         style={{
           marginTop: 20,
         }}

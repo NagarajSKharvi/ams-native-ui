@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import { Provider, Appbar } from "react-native-paper";
 import React from "react";
+import "../global.js";
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,8 +44,12 @@ export default function Home({ navigation }) {
       <Text onPress={() => navigation.navigate("StudentList")}>
         View Students
       </Text>
+      <Text onPress={() => navigation.navigate("Attendence")}>
+        View Attendence
+      </Text>
       <Text onPress={() => navigation.navigate("Login")}>View Students</Text>
       <Text onPress={() => navigation.navigate("")}>Logout</Text>
+      <Text>{global.hostUrl}</Text>
     </ScrollView>
     // <ScrollView>
     //   <View style={styles.container}>

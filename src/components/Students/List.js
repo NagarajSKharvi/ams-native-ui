@@ -1,42 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
-import {
-  Provider,
-  Appbar,
-  Card,
-  IconButton,
-  Avatar,
-  DataTable,
-} from "react-native-paper";
-
-const studentsUrl = "http://192.168.1.102:9999/ams/students";
+import { Provider, Appbar, Card, Avatar, DataTable } from "react-native-paper";
 
 export default function List({ navigation }) {
-  const [page, setPage] = React.useState(0);
-
-  // const [pageReload, setPageReload] = React.useState(reload);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
-  const getAllList = () => {
-    console.log("calleddd ===>");
-    fetch(studentsUrl)
+  React.useEffect(() => {
+    const reloadOnFocus = navigation.addListener("focus", () => {
+      getList();
+    });
+    getList();
+    return reloadOnFocus;
+  }, []);
+
+  const getList = () => {
+    fetch(global.hostUrl + "/students")
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        console.log(json);
         setData(json);
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false));
   };
-  React.useEffect(() => {
-    const reloadOnFocus = navigation.addListener("focus", () => {
-      getAllList();
-      console.log("called on focyus");
-    });
-    getAllList();
-    return reloadOnFocus;
-  }, []);
 
   const goBack = () => {
     navigation.navigate("Home");
@@ -48,9 +34,7 @@ export default function List({ navigation }) {
     navigation.navigate("StudentCreate");
   };
 
-  const viewStud = (pId) => {
-    console.log("Success");
-    console.log(pId);
+  const studentView = (pId) => {
     navigation.navigate("StudentView", { pId });
   };
 
@@ -76,7 +60,7 @@ export default function List({ navigation }) {
                 <DataTable.Row
                   style={styles.databeBox}
                   key={i}
-                  onPress={() => viewStud(stud.id)}
+                  onPress={() => studentView(stud.id)}
                 >
                   <DataTable.Cell>
                     <Avatar.Image source={{ uri: stud.avatar }} />
