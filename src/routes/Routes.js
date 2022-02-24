@@ -7,7 +7,7 @@ import SList from "../components/Students/List";
 import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
 import SCreate from "../components/Students/Create";
-import Attendence from "../components/Attendence/Attendence";
+import Attendence from "../components/Attendence/List";
 
 const Stack = createNativeStackNavigator();
 function Routes() {

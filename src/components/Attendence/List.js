@@ -9,30 +9,27 @@ import {
   DataTable,
 } from "react-native-paper";
 
-const attendanceUrl = "http://192.168.1.102:9999/ams/attendance/1";
-
 export default function Attendence({ navigation }) {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
-  const getAllList = () => {
-    fetch(attendanceUrl)
+  React.useEffect(() => {
+    const reloadOnFocus = navigation.addListener("focus", () => {
+      getList();
+    });
+    getList();
+    return reloadOnFocus;
+  }, []);
+
+  const getList = () => {
+    fetch(global.hostUrl + "/attendance/1")
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        console.log(json);
         setData(json.studentAttendanceResponses);
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false));
   };
-  React.useEffect(() => {
-    const reloadOnFocus = navigation.addListener("focus", () => {
-      getAllList();
-      console.log("called on focyus");
-    });
-    getAllList();
-    return reloadOnFocus;
-  }, []);
 
   const goBack = () => {
     navigation.navigate("Home");
@@ -51,6 +48,7 @@ export default function Attendence({ navigation }) {
               <DataTable.Header style={styles.databeHeader}>
                 <DataTable.Title>Roll Number</DataTable.Title>
                 <DataTable.Title>Present</DataTable.Title>
+                <DataTable.Title>Edit</DataTable.Title>
               </DataTable.Header>
               {data.map((stud, i) => (
                 <DataTable.Row style={styles.databeBox} key={i}>
