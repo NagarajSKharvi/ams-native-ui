@@ -14,14 +14,6 @@ export default function Attendence({ navigation }) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const reloadOnFocus = navigation.addListener("focus", () => {
-      getList();
-    });
-    getList();
-    return reloadOnFocus;
-  }, []);
-
-  const getList = () => {
     fetch(global.hostUrl + "/attendance/1")
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
@@ -29,7 +21,7 @@ export default function Attendence({ navigation }) {
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false));
-  };
+  }, []);
 
   const goBack = () => {
     navigation.navigate("Home");
@@ -48,7 +40,6 @@ export default function Attendence({ navigation }) {
               <DataTable.Header style={styles.databeHeader}>
                 <DataTable.Title>Roll Number</DataTable.Title>
                 <DataTable.Title>Present</DataTable.Title>
-                <DataTable.Title>Edit</DataTable.Title>
               </DataTable.Header>
               {data.map((stud, i) => (
                 <DataTable.Row style={styles.databeBox} key={i}>

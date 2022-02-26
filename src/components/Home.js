@@ -44,8 +44,15 @@ export default function Home({ navigation }) {
       <Text onPress={() => navigation.navigate("StudentList")}>
         View Students
       </Text>
-      <Text onPress={() => navigation.navigate("Attendence")}>
-        View Attendence
+      <Text onPress={() => navigation.navigate("AttendanceList")}>
+        View Attendance
+      </Text>
+      <Text onPress={() => navigation.navigate("ClassList")}>View Classes</Text>
+      <Text>Check</Text>
+      <Text>Check</Text>
+      <Text>Check</Text>
+      <Text onPress={() => navigation.navigate("SectionList")}>
+        View Classes
       </Text>
       <Text onPress={() => navigation.navigate("Login")}>View Students</Text>
       <Text onPress={() => navigation.navigate("")}>Logout</Text>

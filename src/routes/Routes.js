@@ -7,14 +7,16 @@ import SList from "../components/Students/List";
 import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
 import SCreate from "../components/Students/Create";
-import Attendence from "../components/Attendence/List";
+import AttList from "../components/Attendance/List";
+import CList from "../components/Class/List";
+import SecList from "../components/Section/List";
 
 const Stack = createNativeStackNavigator();
 function Routes() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen
@@ -46,8 +48,22 @@ function Routes() {
             }}
           />
           <Stack.Screen
-            name="Attendence"
-            component={Attendence}
+            name="ClassList"
+            component={CList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SectionList"
+            component={SecList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AttendanceList"
+            component={AttList}
             options={{
               headerShown: false,
             }}
