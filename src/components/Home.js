@@ -37,7 +37,9 @@ export default function Home({ navigation }) {
       <Appbar.Header style={styles.header}>
         <Appbar.Content title="Home" />
       </Appbar.Header>
-      <Text onPress={() => navigation.navigate("DataPage")}>View Teachers</Text>
+      <Text onPress={() => navigation.navigate("TeacherList")}>
+        View Teachers
+      </Text>
 
       <Text onPress={() => navigation.navigate("StudentList")}>
         View Students

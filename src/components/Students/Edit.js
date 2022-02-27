@@ -98,7 +98,7 @@ const Edit = ({ route, navigation }) => {
         onChangeText={(text) => setLastName(text)}
       />
       <TextInput
-        label="gender"
+        label="Gender"
         value={gender}
         onChangeText={(text) => setGender(text)}
       />

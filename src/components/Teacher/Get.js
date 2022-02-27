@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button, TextInput, Appbar } from "react-native-paper";
-import StudentEdit from "./Edit";
+import TeacherEdit from "./Edit";
 
 const Get = ({ route, navigation }) => {
   const { pId } = route.params;
   const [id, setId] = useState("");
-  const [rollNumber, setRollNumber] = useState("");
+  const [teacherNumber, setTeacherNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -18,11 +18,11 @@ const Get = ({ route, navigation }) => {
 
   useEffect(() => {
     console.log(pId);
-    fetch(global.hostUrl + `/students/${pId}`)
+    fetch(global.hostUrl + `/teachers/${pId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((data) => {
         setId(data.id);
-        setRollNumber(data.rollNumber);
+        setTeacherNumber(data.teacherNumber);
         setFirstName(data.firstName);
         setMiddleName(data.middleName);
         setLastName(data.lastName);
@@ -35,11 +35,11 @@ const Get = ({ route, navigation }) => {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("StudentList");
+    navigation.navigate("TeacherList");
   };
 
-  const studentDeleteAlert = () =>
-    Alert.alert("Are you sure you want to delete this Student?", "", [
+  const TeacherDeleteAlert = () =>
+    Alert.alert("Are you sure you want to delete this Teacher?", "", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -49,14 +49,14 @@ const Get = ({ route, navigation }) => {
         text: "OK",
         onPress: () => {
           console.log("Ok Pressed");
-          studentDelete();
+          TeacherDelete();
         },
       },
     ]);
 
-  const studentDelete = async () => {
+  const TeacherDelete = async () => {
     setLoading(true);
-    await fetch(global.hostUrl + `/students/${pId}`, {
+    await fetch(global.hostUrl + `/teachers/${pId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     })
@@ -64,7 +64,7 @@ const Get = ({ route, navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
-        navigation.navigate("StudentList");
+        navigation.navigate("TeacherList");
       });
   };
 
@@ -72,10 +72,10 @@ const Get = ({ route, navigation }) => {
     <View>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={goBack} />
-        <Appbar.Content title="Student View" subtitle="Student" />
+        <Appbar.Content title="Teacher View" subtitle="Teacher" />
       </Appbar.Header>
       <TextInput editable={edit} label="id" value={id?.toString()} />
-      <TextInput editable={edit} label="Roll number" value={rollNumber} />
+      <TextInput editable={edit} label="Teach number" value={teacherNumber} />
       <TextInput editable={edit} label="First name" value={firstName} />
       <TextInput editable={edit} label="Middle name" value={middleName} />
       <TextInput editable={edit} label="Last name" value={lastName} />
@@ -90,9 +90,9 @@ const Get = ({ route, navigation }) => {
       <Button
         mode="contained"
         onPress={() =>
-          navigation.navigate("StudentEdit", {
+          navigation.navigate("TeacherEdit", {
             pId: id,
-            pRollNumber: rollNumber,
+            pTeachNumber: teacherNumber,
             pFName: firstName,
             pMName: middleName,
             pLName: lastName,
@@ -108,7 +108,7 @@ const Get = ({ route, navigation }) => {
         <Text>Edit</Text>
       </Button>
       <Text></Text>
-      <Button mode="contained" onPress={studentDeleteAlert}>
+      <Button mode="contained" onPress={TeacherDeleteAlert}>
         <Text>Delete</Text>
       </Button>
     </View>

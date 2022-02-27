@@ -1,53 +1,62 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View, Picker } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Appbar, Card, DataTable, Button } from "react-native-paper";
+import {
+  Appbar,
+  Card,
+  DataTable,
+  Button,
+  Chip,
+  TextInput,
+} from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 
 const Create = ({ navigation }) => {
+  const [date, setDate] = useState();
+  const [periodId, setPeriodId] = useState(1);
   const [data, setData] = useState([]);
+  const [period, setPeriod] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch(global.hostUrl + "/attendance/get")
-      .then((response) => response.json()) // get response, convert to json
+      .then((response) => response.json())
       .then((json) => {
         setData(json.studentAttendanceResponses);
       })
-      .catch((error) => alert(error)) // display errors
+      .catch((error) => alert(error))
       .finally(() => setLoading(false));
-  }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+    fetch(global.hostUrl + "/ams/period")
+      .then((response) => response.json())
+      .then((json) => {
+        setPeriod(json);
+      })
+      .catch((error) => alert(error))
+      .finally(() => {
+        setLoading(false);
+        setDate(getCurrentDate());
+      });
+  }, []);
 
   const goBack = () => {
     navigation.navigate("Home");
   };
 
-  const pickDate = () => {
-    try {
-      const { action, year, month, day } = DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
-        // date: new Date(2020, 4, 25),
-        date: new Date(),
-      });
-      if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-      }
-    } catch ({ code, message }) {
-      console.warn("Cannot open date picker", message);
-    }
+  const getCurrentDate = () => {
+    var date = `${new Date().getDate()}`.padStart(2, "0");
+    var month = `${new Date().getMonth() + 1}`.padStart(2, "0");
+    var year = new Date().getFullYear();
+    return [year, month, date].join("-");
   };
 
-  const attendanceCreate = async (subId, aDate) => {
+  const attendanceCreate = async (subId, pId, aDate) => {
     setLoading(true);
     await fetch(global.hostUrl + "/attendance/create", {
       method: "POST",
       body: JSON.stringify({
         subjectId: subId,
         date: aDate,
+        periodId: pId,
         studentAttendanceRequests: data,
       }),
       headers: { "Content-Type": "application/json" },
@@ -69,6 +78,25 @@ const Create = ({ navigation }) => {
         <Appbar.Content title="Attendance Create" subtitle="Attendance" />
       </Appbar.Header>
       <View style={styles.mainbox}>
+        <TextInput label="Attendance Date" value={date} />
+        <Card>
+          <Chip>Select Period</Chip>
+          <Picker
+            periodId={periodId}
+            style={{ height: 50, width: 185 }}
+            onValueChange={(itemValue, itemIndex) => setPeriodId(itemValue)}
+          >
+            {period.map((p, i) => (
+              <Picker.Item
+                key={i}
+                label={p.fromTime + " - " + p.toTime}
+                value={p.periodId}
+                onPress={() => setPeriodId(p.periodId)}
+              />
+            ))}
+          </Picker>
+        </Card>
+
         <Card>
           <DataTable>
             <DataTable.Header style={styles.databeHeader}>
@@ -94,7 +122,7 @@ const Create = ({ navigation }) => {
         <Button
           mode="contained"
           onPress={() => {
-            attendanceCreate(1, new Date());
+            attendanceCreate(1, periodId, date);
             navigation.navigate("Home");
           }}
           style={{

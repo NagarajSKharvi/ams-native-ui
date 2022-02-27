@@ -2,28 +2,49 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button, TextInput, Appbar } from "react-native-paper";
 
-const Create = ({ navigation }) => {
-  const [rollNumber, setRollNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+const Edit = ({ route, navigation }) => {
+  const {
+    pId,
+    pTeachNumber,
+    pFName,
+    pMName,
+    pLName,
+    pGender,
+    pDob,
+    pMobileNumber,
+  } = route.params;
+  const [id, setId] = useState(pId);
+  const [teacherNumber, setTeacherNumber] = useState(pTeachNumber);
+  const [firstName, setFirstName] = useState(pFName);
+  const [middleName, setMiddleName] = useState(pMName);
+  const [lastName, setLastName] = useState(pLName);
+  const [gender, setGender] = useState(pGender);
+  const [dob, setDob] = useState(pDob);
+  const [mobileNumber, setMobileNumber] = useState(pMobileNumber);
   const [loading, isLoading] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setId(pId);
+    setTeacherNumber(pTeachNumber);
+    setFirstName(pFName);
+    setMiddleName(pMName);
+    setLastName(pLName);
+    setGender(pGender);
+    setDob(pDob);
+    setMobileNumber(pMobileNumber);
+  }, [pId, pFName]);
 
   const goBack = () => {
-    navigation.navigate("StudentList", { reload: true });
+    navigation.navigate("TeacherView");
   };
 
-  const studentCreate = async () => {
+  const teacherEdit = async () => {
     isLoading(true);
-    await fetch(global.hostUrl + "/students", {
-      method: "POST",
+    await fetch(global.hostUrl + "/teachers", {
+      method: "PUT",
       body: JSON.stringify({
-        rollNumber,
+        id,
+        teacherNumber,
         firstName,
         middleName,
         lastName,
@@ -35,12 +56,12 @@ const Create = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data added successfully", data);
+        console.log("data updated successfully", data);
       })
       .catch((err) => console.log(err))
       .finally(() => {
         isLoading(false);
-        navigation.navigate("StudentList");
+        navigation.navigate("TeacherList");
       });
   };
 
@@ -48,12 +69,18 @@ const Create = ({ navigation }) => {
     <View>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={goBack} />
-        <Appbar.Content title="Student Create" subtitle="Student" />
+        <Appbar.Content title="Teacher Edit" subtitle="Teacher" />
       </Appbar.Header>
       <TextInput
-        label="Roll number"
-        value={rollNumber}
-        onChangeText={(text) => setRollNumber(text)}
+        editable={false}
+        label="id"
+        value={id?.toString()}
+        onChangeText={(text) => setId(text)}
+      />
+      <TextInput
+        label="Teach number"
+        value={teacherNumber}
+        onChangeText={(text) => setTeacherNumber(text)}
       />
       <TextInput
         label="First name"
@@ -66,14 +93,14 @@ const Create = ({ navigation }) => {
         onChangeText={(text) => setMiddleName(text)}
       />
       <TextInput
-        label="Gender"
-        value={gender}
-        onChangeText={(text) => setGender(text)}
-      />
-      <TextInput
         label="Last name"
         value={lastName}
         onChangeText={(text) => setLastName(text)}
+      />
+      <TextInput
+        label="Gender"
+        value={gender}
+        onChangeText={(text) => setGender(text)}
       />
       <TextInput
         label="DOB"
@@ -88,19 +115,19 @@ const Create = ({ navigation }) => {
 
       <Button
         mode="contained"
-        onPress={studentCreate}
+        onPress={teacherEdit}
         style={{
           marginTop: 20,
         }}
         loading={loading}
       >
-        <Text>Create</Text>
+        <Text>Update</Text>
       </Button>
     </View>
   );
 };
 
-export default Create;
+export default Edit;
 
 const styles = StyleSheet.create({
   text: {

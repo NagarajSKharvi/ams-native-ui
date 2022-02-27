@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, TextInput, Appbar } from "react-native-paper";
 
 const Create = ({ navigation }) => {
-  const [rollNumber, setRollNumber] = useState("");
+  const [teacherNumber, setTeacherNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,15 +15,15 @@ const Create = ({ navigation }) => {
   useEffect(() => {}, []);
 
   const goBack = () => {
-    navigation.navigate("StudentList", { reload: true });
+    navigation.navigate("TeacherList", { reload: true });
   };
 
-  const studentCreate = async () => {
+  const teacherCreate = async () => {
     isLoading(true);
-    await fetch(global.hostUrl + "/students", {
+    await fetch(global.hostUrl + "/teachers", {
       method: "POST",
       body: JSON.stringify({
-        rollNumber,
+        teacherNumber,
         firstName,
         middleName,
         lastName,
@@ -40,7 +40,7 @@ const Create = ({ navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         isLoading(false);
-        navigation.navigate("StudentList");
+        navigation.navigate("TeacherList");
       });
   };
 
@@ -48,12 +48,12 @@ const Create = ({ navigation }) => {
     <View>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={goBack} />
-        <Appbar.Content title="Student Create" subtitle="Student" />
+        <Appbar.Content title="Teacher Create" subtitle="Teacher" />
       </Appbar.Header>
       <TextInput
-        label="Roll number"
-        value={rollNumber}
-        onChangeText={(text) => setRollNumber(text)}
+        label="Teach number"
+        value={teacherNumber}
+        onChangeText={(text) => setTeacherNumber(text)}
       />
       <TextInput
         label="First name"
@@ -66,14 +66,14 @@ const Create = ({ navigation }) => {
         onChangeText={(text) => setMiddleName(text)}
       />
       <TextInput
-        label="Gender"
-        value={gender}
-        onChangeText={(text) => setGender(text)}
-      />
-      <TextInput
         label="Last name"
         value={lastName}
         onChangeText={(text) => setLastName(text)}
+      />
+      <TextInput
+        label="Gender"
+        value={gender}
+        onChangeText={(text) => setGender(text)}
       />
       <TextInput
         label="DOB"
@@ -88,7 +88,7 @@ const Create = ({ navigation }) => {
 
       <Button
         mode="contained"
-        onPress={studentCreate}
+        onPress={teacherCreate}
         style={{
           marginTop: 20,
         }}
