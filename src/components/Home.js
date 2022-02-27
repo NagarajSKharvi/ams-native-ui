@@ -49,9 +49,7 @@ export default function Home({ navigation }) {
       <Text>Check</Text>
       <Text>Check</Text>
       <Text>Check</Text>
-      <Text onPress={() => navigation.navigate("SectionList")}>
-        View Classes
-      </Text>
+
       <Text>Check</Text>
       <Text onPress={() => navigation.navigate("SubjectList", "1")}>
         View Subject
