@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import {
   Provider,
@@ -9,21 +9,13 @@ import {
   DataTable,
 } from "react-native-paper";
 
-export default function List({ route, navigation }) {
-  const { subId } = route.params;
+const List = ({ route, navigation }) => {
+  const { sId } = route.params;
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const studData = {
-      subjectId: `${subId}`,
-    };
-    fetch(global.hostUrl + `/attendance`, {
-      method: "POST",
-      body: JSON.stringify(studData),
-      headers: { "Content-Type": "application/json" },
-    })
-      // fetch(global.hostUrl + `/attendance/${subId}`)
+    fetch(global.hostUrl + `/ams/subject/${sId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
         setData(json);
@@ -33,12 +25,15 @@ export default function List({ route, navigation }) {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("ClassList");
   };
 
-  const attendanceView = (aId) => {
-    console.log(aId);
-    navigation.navigate("AttendanceView", { aId });
+  const viewStudents = () => {
+    navigation.navigate("StudentList");
+  };
+
+  const viewAttendance = (subId) => {
+    navigation.navigate("AttendanceList", { subId });
   };
 
   return (
@@ -46,34 +41,23 @@ export default function List({ route, navigation }) {
       <ScrollView>
         <Appbar.Header style={styles.header}>
           <Appbar.BackAction onPress={goBack} />
-          <Appbar.Content title="Attendance List" subtitle="Attendance" />
+          <Appbar.Content title="Subject List" subtitle="Subjects" />
         </Appbar.Header>
         <View style={styles.mainbox}>
           <Card>
             <DataTable>
               <DataTable.Header style={styles.databeHeader}>
-                <DataTable.Title>Class</DataTable.Title>
-                <DataTable.Title>Section</DataTable.Title>
                 <DataTable.Title>Subject</DataTable.Title>
-
-                <DataTable.Title>Date Taken</DataTable.Title>
+                <DataTable.Title>Attendance</DataTable.Title>
               </DataTable.Header>
-              {data.map((att, i) => (
-                <DataTable.Row
-                  style={styles.databeBox}
-                  key={i}
-                  onPress={() => attendanceView(att.attendanceId)}
-                >
-                  <DataTable.Cell>
-                    {att.sectionSubject.classSection.studClass.className}
+              {data.map((subject, i) => (
+                <DataTable.Row style={styles.databeBox} key={i}>
+                  <DataTable.Cell>{subject.subjectName}</DataTable.Cell>
+                  <DataTable.Cell
+                    onPress={() => viewAttendance(subject.subjectId)}
+                  >
+                    View Attendance
                   </DataTable.Cell>
-                  <DataTable.Cell>
-                    {att.sectionSubject.classSection.sectionName}
-                  </DataTable.Cell>
-                  <DataTable.Cell>
-                    {att.sectionSubject.subjectName}
-                  </DataTable.Cell>
-                  <DataTable.Cell>{att.date}</DataTable.Cell>
                 </DataTable.Row>
               ))}
             </DataTable>
@@ -82,7 +66,8 @@ export default function List({ route, navigation }) {
       </ScrollView>
     </Provider>
   );
-}
+};
+export default List;
 
 const styles = StyleSheet.create({
   title: {
@@ -99,7 +84,6 @@ const styles = StyleSheet.create({
   databeBox: {
     margin: 2,
     textAlign: "left",
-    height: 100,
   },
   databeHeader: {
     margin: 10,

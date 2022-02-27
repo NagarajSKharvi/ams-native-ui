@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import {
   Provider,
@@ -9,31 +9,27 @@ import {
   DataTable,
 } from "react-native-paper";
 
-const List = ({ route, navigation }) => {
-  const { cId } = route.params;
-  const [data, setData] = React.useState([]);
+export default function Get({ route, navigation }) {
+  const { aId } = route.params;
+  const [data, setData] = React.useState();
+  const [studs, setStuds] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch(global.hostUrl + `/ams/section/${cId}`)
+    console.log(aId);
+    fetch(global.hostUrl + `/attendance/${aId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
+        console.log(json);
         setData(json);
+        setStuds(json.studentAttendanceResponses);
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false));
-  }, [cId]);
+  }, []);
 
   const goBack = () => {
-    navigation.navigate("ClassList");
-  };
-
-  const viewStudents = () => {
-    navigation.navigate("StudentList");
-  };
-
-  const viewSubjects = (sId) => {
-    navigation.navigate("SubjectList", { sId });
+    navigation.navigate("AttendanceList");
   };
 
   return (
@@ -41,27 +37,19 @@ const List = ({ route, navigation }) => {
       <ScrollView>
         <Appbar.Header style={styles.header}>
           <Appbar.BackAction onPress={goBack} />
-          <Appbar.Content title="Section List" subtitle="Sections" />
+          <Appbar.Content title="Attendance View" subtitle="Attendance" />
         </Appbar.Header>
         <View style={styles.mainbox}>
           <Card>
             <DataTable>
               <DataTable.Header style={styles.databeHeader}>
-                <DataTable.Title>Section</DataTable.Title>
-                {/* <DataTable.Title>Students</DataTable.Title> */}
-                <DataTable.Title>Subjects</DataTable.Title>
+                <DataTable.Title>Roll Number</DataTable.Title>
+                <DataTable.Title>Present</DataTable.Title>
               </DataTable.Header>
-              {data.map((section, i) => (
-                <DataTable.Row
-                  style={styles.databeBox}
-                  key={i}
-                  onPress={() => viewSubjects(section.sectionId)}
-                >
-                  <DataTable.Cell>{section.sectionName}</DataTable.Cell>
-                  {/* <DataTable.Cell onPress={viewStudents}>
-                    View Students
-                  </DataTable.Cell> */}
-                  <DataTable.Cell>View Subjects</DataTable.Cell>
+              {studs.map((stud, i) => (
+                <DataTable.Row style={styles.databeBox} key={i}>
+                  <DataTable.Cell>{stud.rollNumber}</DataTable.Cell>
+                  <DataTable.Cell>{stud.present ? "Yes" : "No"}</DataTable.Cell>
                 </DataTable.Row>
               ))}
             </DataTable>
@@ -70,8 +58,7 @@ const List = ({ route, navigation }) => {
       </ScrollView>
     </Provider>
   );
-};
-export default List;
+}
 
 const styles = StyleSheet.create({
   title: {

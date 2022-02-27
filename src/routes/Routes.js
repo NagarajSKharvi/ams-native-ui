@@ -8,8 +8,11 @@ import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
 import SCreate from "../components/Students/Create";
 import AttList from "../components/Attendance/List";
+import AttView from "../components/Attendance/Get";
+import AttCreate from "../components/Attendance/Create";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
+import SubList from "../components/Subject/List";
 
 const Stack = createNativeStackNavigator();
 function Routes() {
@@ -62,8 +65,29 @@ function Routes() {
             }}
           />
           <Stack.Screen
+            name="SubjectList"
+            component={SubList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name="AttendanceList"
             component={AttList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AttendanceView"
+            component={AttView}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AttendanceCreate"
+            component={AttCreate}
             options={{
               headerShown: false,
             }}

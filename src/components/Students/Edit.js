@@ -3,13 +3,22 @@ import React, { useEffect, useState } from "react";
 import { Button, TextInput, Appbar } from "react-native-paper";
 
 const Edit = ({ route, navigation }) => {
-  const { pId, pRollNumber, pFName, pMName, pLName, pDob, pMobileNumber } =
-    route.params;
+  const {
+    pId,
+    pRollNumber,
+    pFName,
+    pMName,
+    pLName,
+    pGender,
+    pDob,
+    pMobileNumber,
+  } = route.params;
   const [id, setId] = useState(pId);
   const [rollNumber, setRollNumber] = useState(pRollNumber);
   const [firstName, setFirstName] = useState(pFName);
   const [middleName, setMiddleName] = useState(pMName);
   const [lastName, setLastName] = useState(pLName);
+  const [gender, setGender] = useState(pGender);
   const [dob, setDob] = useState(pDob);
   const [mobileNumber, setMobileNumber] = useState(pMobileNumber);
   const [loading, isLoading] = useState(false);
@@ -20,6 +29,7 @@ const Edit = ({ route, navigation }) => {
     setFirstName(pFName);
     setMiddleName(pMName);
     setLastName(pLName);
+    setGender(pGender);
     setDob(pDob);
     setMobileNumber(pMobileNumber);
   }, [pId, pFName]);
@@ -38,6 +48,7 @@ const Edit = ({ route, navigation }) => {
         firstName,
         middleName,
         lastName,
+        gender,
         dob,
         mobileNumber,
       }),
@@ -85,6 +96,11 @@ const Edit = ({ route, navigation }) => {
         label="Last name"
         value={lastName}
         onChangeText={(text) => setLastName(text)}
+      />
+      <TextInput
+        label="gender"
+        value={gender}
+        onChangeText={(text) => setGender(text)}
       />
       <TextInput
         label="DOB"

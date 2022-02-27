@@ -38,9 +38,7 @@ export default function Home({ navigation }) {
         <Appbar.Content title="Home" />
       </Appbar.Header>
       <Text onPress={() => navigation.navigate("DataPage")}>View Teachers</Text>
-      <Text onPress={() => navigation.navigate("StudentEdit")}>
-        Edit Student
-      </Text>
+
       <Text onPress={() => navigation.navigate("StudentList")}>
         View Students
       </Text>
@@ -54,27 +52,15 @@ export default function Home({ navigation }) {
       <Text onPress={() => navigation.navigate("SectionList")}>
         View Classes
       </Text>
-      <Text onPress={() => navigation.navigate("Login")}>View Students</Text>
-      <Text onPress={() => navigation.navigate("")}>Logout</Text>
-      <Text>{global.hostUrl}</Text>
+      <Text>Check</Text>
+      <Text onPress={() => navigation.navigate("SubjectList", "1")}>
+        View Subject
+      </Text>
+      <Text onPress={() => navigation.navigate("AttendanceCreate")}>
+        Add Attendance
+      </Text>
+      <Text onPress={() => navigation.navigate("Login")}>Logout</Text>
     </ScrollView>
-    // <ScrollView>
-    //   <View style={styles.container}>
-    //     <Card>
-    //       <Card.Title>Welcome to UVCE College of Engineering</Card.Title>
-    //     </Card>
-    //   </View>
-
-    //   <Text onPress={() => navigation.navigate("DataPage")}>View Teachers</Text>
-    //   <Text onPress={() => navigation.navigate("StudentEdit")}>
-    //     Edit Student
-    //   </Text>
-    //   <Text onPress={() => navigation.navigate("StudentList")}>
-    //     View Students
-    //   </Text>
-    //   <Text onPress={() => navigation.navigate("Login")}>View Students</Text>
-    //   <Text onPress={() => navigation.navigate("")}>Logout</Text>
-    // </ScrollView>
   );
 }
 

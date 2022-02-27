@@ -10,6 +10,7 @@ const Get = ({ route, navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [edit, setEdit] = useState(false);
@@ -25,6 +26,7 @@ const Get = ({ route, navigation }) => {
         setFirstName(data.firstName);
         setMiddleName(data.middleName);
         setLastName(data.lastName);
+        setGender(data.gender);
         setDob(data.dob);
         setMobileNumber(data.mobileNumber);
       })
@@ -77,6 +79,7 @@ const Get = ({ route, navigation }) => {
       <TextInput editable={edit} label="First name" value={firstName} />
       <TextInput editable={edit} label="Middle name" value={middleName} />
       <TextInput editable={edit} label="Last name" value={lastName} />
+      <TextInput editable={edit} label="gender" value={gender} />
       <TextInput editable={edit} label="DOB" value={dob} />
       <TextInput
         editable={edit}
@@ -93,6 +96,7 @@ const Get = ({ route, navigation }) => {
             pFName: firstName,
             pMName: middleName,
             pLName: lastName,
+            pGender: gender,
             pDob: dob,
             pMobileNumber: mobileNumber,
           })

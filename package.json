@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.11",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.4.1",
     "@types/react-native": "^0.66.15",
