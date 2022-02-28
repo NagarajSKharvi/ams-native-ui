@@ -11,10 +11,13 @@ import {
 import { CheckBox } from "react-native-elements";
 
 const Create = ({ navigation }) => {
+  const [teachId, setTeachId] = useState(1);
   const [date, setDate] = useState();
   const [periodId, setPeriodId] = useState(1);
+  const [subjectId, setSubjectId] = useState(1);
   const [data, setData] = useState([]);
   const [period, setPeriod] = useState([]);
+  const [subject, setSubject] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -36,6 +39,16 @@ const Create = ({ navigation }) => {
         setLoading(false);
         setDate(getCurrentDate());
       });
+
+    fetch(global.hostUrl + `/ams/teacher-subject/${teachId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setSubject(json);
+      })
+      .catch((error) => alert(error))
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const goBack = () => {
@@ -49,14 +62,15 @@ const Create = ({ navigation }) => {
     return [year, month, date].join("-");
   };
 
-  const attendanceCreate = async (subId, pId, aDate) => {
+  const attendanceCreate = async () => {
     setLoading(true);
     await fetch(global.hostUrl + "/attendance/create", {
       method: "POST",
       body: JSON.stringify({
-        subjectId: subId,
-        date: aDate,
-        periodId: pId,
+        subjectId,
+        date,
+        periodId,
+        teachId,
         studentAttendanceRequests: data,
       }),
       headers: { "Content-Type": "application/json" },
@@ -96,7 +110,29 @@ const Create = ({ navigation }) => {
             ))}
           </Picker>
         </Card>
-
+        <Card>
+          <Chip>Select Subject</Chip>
+          <Picker
+            subjectId={subjectId}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setSubjectId(itemValue)}
+          >
+            {subject.map((s, i) => (
+              <Picker.Item
+                key={i}
+                label={
+                  s.subject.classSection.studClass.className +
+                  " " +
+                  s.subject.classSection.sectionName +
+                  " " +
+                  s.subject.subjectName
+                }
+                value={s.subject.subjectId}
+                onPress={() => setSubject(s.subject.subjectId)}
+              />
+            ))}
+          </Picker>
+        </Card>
         <Card>
           <DataTable>
             <DataTable.Header style={styles.databeHeader}>
@@ -122,7 +158,7 @@ const Create = ({ navigation }) => {
         <Button
           mode="contained"
           onPress={() => {
-            attendanceCreate(1, periodId, date);
+            attendanceCreate();
             navigation.navigate("Home");
           }}
           style={{

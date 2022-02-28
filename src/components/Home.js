@@ -1,25 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
-import { Card, ListItem } from "react-native-elements";
-import { Provider, Appbar } from "react-native-paper";
+import { Appbar, Card, DataTable, Button, TextInput } from "react-native-paper";
 import React from "react";
 import "../global.js";
-
-const { width, height } = Dimensions.get("window");
-
-const sections = [
-  {
-    name: "Teachers",
-    task: "StudentList",
-  },
-  {
-    name: "Students",
-    task: "StudentList",
-  },
-  {
-    name: "Admin",
-    task: "Login",
-  },
-];
 
 export default function Home({ navigation }) {
   const onClickButton = (values) => {
@@ -37,29 +19,35 @@ export default function Home({ navigation }) {
       <Appbar.Header style={styles.header}>
         <Appbar.Content title="Home" />
       </Appbar.Header>
-      <Text onPress={() => navigation.navigate("TeacherList")}>
+
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("TeacherList")}
+      >
         View Teachers
       </Text>
-
-      <Text onPress={() => navigation.navigate("StudentList")}>
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("StudentList")}
+      >
         View Students
       </Text>
-      <Text onPress={() => navigation.navigate("AttendanceList")}>
-        View Attendance
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("ClassList")}
+      >
+        View Classes
       </Text>
-      <Text onPress={() => navigation.navigate("ClassList")}>View Classes</Text>
-      <Text>Check</Text>
-      <Text>Check</Text>
-      <Text>Check</Text>
 
-      <Text>Check</Text>
-      <Text onPress={() => navigation.navigate("SubjectList", "1")}>
-        View Subject
-      </Text>
-      <Text onPress={() => navigation.navigate("AttendanceCreate")}>
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("AttendanceCreate", "1")}
+      >
         Add Attendance
       </Text>
-      <Text onPress={() => navigation.navigate("Login")}>Logout</Text>
+      <Text style={styles.name} onPress={() => navigation.navigate("Login")}>
+        Logout
+      </Text>
     </ScrollView>
   );
 }
@@ -81,7 +69,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   name: {
-    fontSize: 16,
-    marginTop: 5,
+    fontSize: 20,
+    marginTop: 10,
   },
 });

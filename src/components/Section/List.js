@@ -58,9 +58,6 @@ const List = ({ route, navigation }) => {
                   onPress={() => viewSubjects(section.sectionId)}
                 >
                   <DataTable.Cell>{section.sectionName}</DataTable.Cell>
-                  {/* <DataTable.Cell onPress={viewStudents}>
-                    View Students
-                  </DataTable.Cell> */}
                   <DataTable.Cell>View Subjects</DataTable.Cell>
                 </DataTable.Row>
               ))}

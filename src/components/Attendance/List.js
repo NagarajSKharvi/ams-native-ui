@@ -33,7 +33,7 @@ export default function List({ route, navigation }) {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("SubjectList", { subId });
   };
 
   const attendanceView = (aId) => {

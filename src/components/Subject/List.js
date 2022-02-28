@@ -25,7 +25,7 @@ const List = ({ route, navigation }) => {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("ClassList");
+    navigation.navigate("SectionList", { sId });
   };
 
   const viewStudents = () => {
