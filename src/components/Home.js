@@ -34,6 +34,12 @@ export default function Home({ navigation }) {
       </Text>
       <Text
         style={styles.name}
+        onPress={() => navigation.navigate("StudentSearch")}
+      >
+        Student Search
+      </Text>
+      <Text
+        style={styles.name}
         onPress={() => navigation.navigate("ClassList")}
       >
         View Classes
@@ -45,6 +51,13 @@ export default function Home({ navigation }) {
       >
         Add Attendance
       </Text>
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("AttendanceSearch")}
+      >
+        Attendance Search
+      </Text>
+
       <Text style={styles.name} onPress={() => navigation.navigate("Login")}>
         Logout
       </Text>

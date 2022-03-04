@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 
-const Create = ({ navigation }) => {
+const SearchList = ({ navigation }) => {
   const [teachId, setTeachId] = useState(1);
   const [date, setDate] = useState();
   const [periodId, setPeriodId] = useState(1);
@@ -22,14 +22,6 @@ const Create = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(global.hostUrl + `/attendance/get/${sectionId}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json.studentAttendanceResponses);
-      })
-      .catch((error) => alert(error))
-      .finally(() => setLoading(false));
-
     fetch(global.hostUrl + "/ams/period")
       .then((response) => response.json())
       .then((json) => {
@@ -37,7 +29,6 @@ const Create = ({ navigation }) => {
       })
       .catch((error) => alert(error))
       .finally(() => {
-        setLoading(false);
         setDate(getCurrentDate());
       });
 
@@ -47,13 +38,32 @@ const Create = ({ navigation }) => {
         setSubject(json);
       })
       .catch((error) => alert(error))
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => {});
   }, []);
 
   const goBack = () => {
     navigation.navigate("Home");
+  };
+
+  const attendanceSearch = () => {
+    fetch(global.hostUrl + "/attendance", {
+      method: "POST",
+      body: JSON.stringify({
+        periodId,
+        subjectId,
+        teachId,
+        date,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(json);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(true);
+      });
   };
 
   const getCurrentDate = () => {
@@ -63,29 +73,6 @@ const Create = ({ navigation }) => {
     return [year, month, date].join("-");
   };
 
-  const attendanceCreate = async () => {
-    setLoading(true);
-    await fetch(global.hostUrl + "/attendance/create", {
-      method: "POST",
-      body: JSON.stringify({
-        subjectId,
-        date,
-        periodId,
-        teachId,
-        studentAttendanceRequests: data,
-      }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("attendence added successfully", data);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   return (
     <ScrollView>
       <Appbar.Header style={styles.header}>
@@ -93,7 +80,11 @@ const Create = ({ navigation }) => {
         <Appbar.Content title="Attendance Create" subtitle="Attendance" />
       </Appbar.Header>
       <View style={styles.mainbox}>
-        <TextInput label="Attendance Date" value={date} />
+        <TextInput
+          label="Attendance Date"
+          value={date}
+          onChangeText={(text) => setDate(text)}
+        />
         <Card>
           <Chip>Select Period</Chip>
           <Picker
@@ -137,46 +128,53 @@ const Create = ({ navigation }) => {
             ))}
           </Picker>
         </Card>
-        <Card>
-          <DataTable>
-            <DataTable.Header style={styles.databeHeader}>
-              <DataTable.Title>Roll Number</DataTable.Title>
-              <DataTable.Title>Present</DataTable.Title>
-            </DataTable.Header>
-            {data.map((att, i) => (
-              <DataTable.Row style={styles.databeBox} key={i}>
-                <DataTable.Cell>{att.rollNumber}</DataTable.Cell>
-                <DataTable.Cell>
-                  <CheckBox
-                    checked={data[i].present}
-                    onPress={() => {
-                      att.present = !att.present;
-                      setData([...data]);
-                    }}
-                  />
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
-        </Card>
+
         <Button
           mode="contained"
           onPress={() => {
-            attendanceCreate();
-            navigation.navigate("Home");
+            attendanceSearch();
           }}
           style={{
             marginTop: 20,
           }}
         >
-          <Text>Add Attendance</Text>
+          <Text>Search</Text>
         </Button>
+        <Card>
+          <DataTable>
+            <DataTable.Header style={styles.databeHeader}>
+              <DataTable.Title>Class</DataTable.Title>
+              <DataTable.Title>Section</DataTable.Title>
+              <DataTable.Title>Subject</DataTable.Title>
+
+              <DataTable.Title>Date Taken</DataTable.Title>
+            </DataTable.Header>
+            {data.map((att, i) => (
+              <DataTable.Row
+                style={styles.databeBox}
+                key={i}
+                onPress={() => attendanceView(att.attendanceId)}
+              >
+                <DataTable.Cell>
+                  {att.sectionSubject.classSection.studClass.className}
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  {att.sectionSubject.classSection.sectionName}
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  {att.sectionSubject.subjectName}
+                </DataTable.Cell>
+                <DataTable.Cell>{att.date}</DataTable.Cell>
+              </DataTable.Row>
+            ))}
+          </DataTable>
+        </Card>
       </View>
     </ScrollView>
   );
 };
 
-export default Create;
+export default SearchList;
 
 const styles = StyleSheet.create({
   text: {

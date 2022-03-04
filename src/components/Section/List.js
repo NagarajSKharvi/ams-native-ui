@@ -28,12 +28,12 @@ const List = ({ route, navigation }) => {
     navigation.navigate("ClassList");
   };
 
-  const viewStudents = () => {
-    navigation.navigate("StudentList");
-  };
-
   const viewSubjects = (sId) => {
     navigation.navigate("SubjectList", { sId });
+  };
+
+  const viewStudents = (sId) => {
+    navigation.navigate("SectionStudentList", { sId });
   };
 
   return (
@@ -48,17 +48,22 @@ const List = ({ route, navigation }) => {
             <DataTable>
               <DataTable.Header style={styles.databeHeader}>
                 <DataTable.Title>Section</DataTable.Title>
-                {/* <DataTable.Title>Students</DataTable.Title> */}
+                <DataTable.Title>Students</DataTable.Title>
                 <DataTable.Title>Subjects</DataTable.Title>
               </DataTable.Header>
               {data.map((section, i) => (
-                <DataTable.Row
-                  style={styles.databeBox}
-                  key={i}
-                  onPress={() => viewSubjects(section.sectionId)}
-                >
+                <DataTable.Row style={styles.databeBox} key={i}>
                   <DataTable.Cell>{section.sectionName}</DataTable.Cell>
-                  <DataTable.Cell>View Subjects</DataTable.Cell>
+                  <DataTable.Cell
+                    onPress={() => viewStudents(section.sectionId)}
+                  >
+                    View Students
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    onPress={() => viewSubjects(section.sectionId)}
+                  >
+                    View Subjects
+                  </DataTable.Cell>
                 </DataTable.Row>
               ))}
             </DataTable>

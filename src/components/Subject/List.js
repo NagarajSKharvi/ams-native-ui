@@ -28,10 +28,6 @@ const List = ({ route, navigation }) => {
     navigation.navigate("SectionList", { sId });
   };
 
-  const viewStudents = () => {
-    navigation.navigate("StudentList");
-  };
-
   const viewAttendance = (subId) => {
     navigation.navigate("AttendanceList", { subId });
   };
@@ -51,13 +47,13 @@ const List = ({ route, navigation }) => {
                 <DataTable.Title>Attendance</DataTable.Title>
               </DataTable.Header>
               {data.map((subject, i) => (
-                <DataTable.Row style={styles.databeBox} key={i}>
+                <DataTable.Row
+                  style={styles.databeBox}
+                  key={i}
+                  onPress={() => viewAttendance(subject.subjectId)}
+                >
                   <DataTable.Cell>{subject.subjectName}</DataTable.Cell>
-                  <DataTable.Cell
-                    onPress={() => viewAttendance(subject.subjectId)}
-                  >
-                    View Attendance
-                  </DataTable.Cell>
+                  <DataTable.Cell>View Attendance</DataTable.Cell>
                 </DataTable.Row>
               ))}
             </DataTable>

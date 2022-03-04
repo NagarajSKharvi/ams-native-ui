@@ -4,8 +4,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../components/Login";
 import Home from "../components/Home";
 import SList from "../components/Students/List";
+import SSList from "../components/Students/SSList";
 import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
+import SSearch from "../components/Students/Search";
 import SCreate from "../components/Students/Create";
 import TList from "../components/Teacher/List";
 import TView from "../components/Teacher/Get";
@@ -14,6 +16,7 @@ import TCreate from "../components/Teacher/Create";
 import AttList from "../components/Attendance/List";
 import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
+import AttSearch from "../components/Attendance/SearchList";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
 import SubList from "../components/Subject/List";
@@ -29,6 +32,13 @@ function Routes() {
           <Stack.Screen
             name="StudentList"
             component={SList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SectionStudentList"
+            component={SSList}
             options={{
               headerShown: false,
             }}
@@ -50,6 +60,13 @@ function Routes() {
           <Stack.Screen
             name="StudentCreate"
             component={SCreate}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="StudentSearch"
+            component={SSearch}
             options={{
               headerShown: false,
             }}
@@ -120,6 +137,13 @@ function Routes() {
           <Stack.Screen
             name="AttendanceCreate"
             component={AttCreate}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AttendanceSearch"
+            component={AttSearch}
             options={{
               headerShown: false,
             }}
