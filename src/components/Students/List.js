@@ -58,7 +58,7 @@ export default function List({ navigation }) {
               </DataTable.Header>
               {data.map((stud, i) => (
                 <DataTable.Row
-                  style={styles.databeBox}
+                  style={i % 2 == 0 ? styles.databeBox1 : styles.databeBox2}
                   key={i}
                   onPress={() => studentView(stud.id)}
                 >
@@ -90,9 +90,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
   },
-  databeBox: {
+  databeBox1: {
     margin: 2,
     textAlign: "left",
+    backgroundColor: "#edfffc",
+  },
+  databeBox2: {
+    margin: 2,
+    textAlign: "left",
+    backgroundColor: "#f0f3ff",
   },
   databeHeader: {
     margin: 10,

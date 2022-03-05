@@ -13,7 +13,7 @@ import { CheckBox } from "react-native-elements";
 const SearchList = ({ navigation }) => {
   const [teachId, setTeachId] = useState(1);
   const [date, setDate] = useState();
-  const [periodId, setPeriodId] = useState(1);
+  const [periodId, setPeriodId] = useState([]);
   const [sectionId, setSectionId] = useState(1);
   const [subjectId, setSubjectId] = useState(1);
   const [data, setData] = useState([]);
@@ -25,7 +25,14 @@ const SearchList = ({ navigation }) => {
     fetch(global.hostUrl + "/ams/period")
       .then((response) => response.json())
       .then((json) => {
-        setPeriod(json);
+        setPeriod([
+          {
+            periodId: null,
+            fromTime: "Select",
+            toTime: "",
+          },
+          ...json,
+        ]);
       })
       .catch((error) => alert(error))
       .finally(() => {
@@ -35,7 +42,15 @@ const SearchList = ({ navigation }) => {
     fetch(global.hostUrl + `/ams/teacher-subject/${teachId}`)
       .then((response) => response.json())
       .then((json) => {
-        setSubject(json);
+        setSubject([
+          {
+            subject: {
+              subjectId: null,
+              subjectName: "Select",
+            },
+          },
+          ...json,
+        ]);
       })
       .catch((error) => alert(error))
       .finally(() => {});
@@ -58,7 +73,8 @@ const SearchList = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(json);
+        setData(data);
+        console.log(data.length);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -95,7 +111,7 @@ const SearchList = ({ navigation }) => {
             {period.map((p, i) => (
               <Picker.Item
                 key={i}
-                label={p.fromTime + " - " + p.toTime}
+                label={p.periodId ? p.fromTime + " - " + p.toTime : p.fromTime}
                 value={p.periodId}
                 onPress={() => setPeriodId(p.periodId)}
               />
@@ -106,18 +122,20 @@ const SearchList = ({ navigation }) => {
           <Chip>Select Subject</Chip>
           <Picker
             subjectId={subjectId}
-            style={{ height: 50, width: 200 }}
+            style={{ height: 50, width: 250 }}
             onValueChange={(itemValue, itemIndex) => setSubjectId(itemValue)}
           >
             {subject.map((s, i) => (
               <Picker.Item
                 key={i}
                 label={
-                  s.subject.classSection.studClass.className +
-                  " " +
-                  s.subject.classSection.sectionName +
-                  " " +
-                  s.subject.subjectName
+                  s.subject.subjectId
+                    ? s.subject.classSection.studClass.className +
+                      " " +
+                      s.subject.classSection.sectionName +
+                      " " +
+                      s.subject.subjectName
+                    : s.subject.subjectName
                 }
                 value={s.subject.subjectId}
                 onPress={() => {
@@ -128,7 +146,6 @@ const SearchList = ({ navigation }) => {
             ))}
           </Picker>
         </Card>
-
         <Button
           mode="contained"
           onPress={() => {
@@ -140,6 +157,7 @@ const SearchList = ({ navigation }) => {
         >
           <Text>Search</Text>
         </Button>
+
         <Card>
           <DataTable>
             <DataTable.Header style={styles.databeHeader}>
@@ -149,6 +167,9 @@ const SearchList = ({ navigation }) => {
 
               <DataTable.Title>Date Taken</DataTable.Title>
             </DataTable.Header>
+            {data.length == 0 && (
+              <Text style={styles.textdata}>No result to display</Text>
+            )}
             {data.map((att, i) => (
               <DataTable.Row
                 style={styles.databeBox}
@@ -180,5 +201,11 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     fontWeight: "600",
+  },
+  textdata: {
+    color: "black",
+    fontWeight: "600",
+    textAlign: "center",
+    fontSize: 18,
   },
 });
