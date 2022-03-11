@@ -12,22 +12,49 @@ import {
 
 const { width, height } = Dimensions.get("window");
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [response, setResponse] = useState({ response: "Login Failed" });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState();
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
 
-  const onClickButton = (values) => {
-    if (email === "" && password === "") {
+  React.useEffect(() => {}, []);
+
+  const onClickButton = async () => {
+    await fetch(global.hostUrl + "/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json()) // get response, convert to json
+      .then((json) => {
+        setResponse(json);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+      });
+
+    console.log(response);
+    console.log(response.response);
+    if (response.response === "Success") {
       console.log("Success");
-      navigation.navigate("Home");
+      if (response.userType === "admin") {
+        navigation.navigate("AdminHome");
+      } else if (response.userType === "teacher") {
+        navigation.navigate("TeacherHome");
+      } else if (response.userType === "student") {
+        navigation.navigate("StudentHome");
+      }
     } else {
       console.log("Failed");
       setHasLoginFailed(true);
-      simpleAlertHandler();
+      // simpleAlertHandler();
     }
-  };
-  const simpleAlertHandler = () => {
-    alert("Invalid Credentials");
   };
 
   return (
@@ -51,14 +78,18 @@ export default function Login({ navigation }) {
 
       <TextInput
         style={styles.textInput}
-        placeholder="Email"
+        placeholder="Username"
         onChangeText={(text) => {
-          setEmail(text);
+          setUsername(text);
         }}
-        value={email}
+        value={username}
       />
+      {/* {username.length < 5 && (
+        <Text style={{ color: "red" }}>{"Please Enter atleast 5 chars"}</Text>
+      )} */}
       <TextInput
         style={styles.textInput}
+        textContentType="password"
         placeholder="Password"
         onChangeText={(text) => {
           setPassword(text);
@@ -69,7 +100,19 @@ export default function Login({ navigation }) {
         title="Login"
         style={styles.button}
         width={width * 0.9}
-        onPress={onClickButton}
+        onPress={() => {
+          onClickButton();
+          console.log(response);
+          console.log(response.response);
+          if (response.response === "Success") {
+            console.log("Success");
+            navigation.navigate("AdminHome");
+          } else {
+            console.log("Failed");
+            setHasLoginFailed(true);
+            // simpleAlertHandler();
+          }
+        }}
       />
     </View>
   );

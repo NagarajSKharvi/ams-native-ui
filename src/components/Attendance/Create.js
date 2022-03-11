@@ -56,6 +56,18 @@ const Create = ({ navigation }) => {
     navigation.navigate("Home");
   };
 
+  const refresh = () => {
+    console.log("My dat");
+    fetch(global.hostUrl + `/attendance/get/${sectionId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        setData(json.studentAttendanceResponses);
+      })
+      .catch((error) => alert(error))
+      .finally(() => setLoading(false));
+  };
+
   const getCurrentDate = () => {
     var date = `${new Date().getDate()}`.padStart(2, "0");
     var month = `${new Date().getMonth() + 1}`.padStart(2, "0");
@@ -116,7 +128,10 @@ const Create = ({ navigation }) => {
           <Picker
             subjectId={subjectId}
             style={{ height: 50, width: 200 }}
-            onValueChange={(itemValue, itemIndex) => setSubjectId(itemValue)}
+            onValueChange={(itemValue, itemIndex) => {
+              setSubjectId(itemValue);
+              refresh();
+            }}
           >
             {subject.map((s, i) => (
               <Picker.Item

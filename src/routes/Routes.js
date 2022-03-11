@@ -3,6 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../components/Login";
 import Home from "../components/Home";
+import AdminHome from "../components/AdminHome";
+import TeacherHome from "../components/TeacherHome";
+import StudentHome from "../components/StudentHome";
 import SList from "../components/Students/List";
 import SSList from "../components/Students/SSList";
 import SView from "../components/Students/Get";
@@ -17,6 +20,7 @@ import AttList from "../components/Attendance/List";
 import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
+import AASearch from "../components/Attendance/AASearch";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
 import SubList from "../components/Subject/List";
@@ -26,7 +30,7 @@ function Routes() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen
@@ -144,6 +148,34 @@ function Routes() {
           <Stack.Screen
             name="AttendanceSearch"
             component={AttSearch}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AASearch"
+            component={AASearch}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="TeacherHome"
+            component={TeacherHome}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AdminHome"
+            component={AdminHome}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="StudentHome"
+            component={StudentHome}
             options={{
               headerShown: false,
             }}

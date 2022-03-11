@@ -57,6 +57,16 @@ export default function Home({ navigation }) {
       >
         Attendance Search
       </Text>
+      <Text style={styles.name} onPress={() => navigation.navigate("AASearch")}>
+        Admin Attendance Search
+      </Text>
+
+      <Text
+        style={styles.name}
+        onPress={() => navigation.navigate("AdminHome")}
+      >
+        Card Home
+      </Text>
 
       <Text style={styles.name} onPress={() => navigation.navigate("Login")}>
         Logout

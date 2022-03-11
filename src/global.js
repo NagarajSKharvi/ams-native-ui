@@ -1,1 +1,1 @@
-global.hostUrl = "http://192.168.1.100:9999/ams";
+global.hostUrl = "http://192.168.1.10:9999/ams";
