@@ -89,11 +89,16 @@ const SearchList = ({ navigation }) => {
     return [year, month, date].join("-");
   };
 
+  const attendanceView = (aId) => {
+    console.log(aId);
+    navigation.navigate("AttendanceView", { aId });
+  };
+
   return (
     <ScrollView>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={goBack} />
-        <Appbar.Content title="Attendance Create" subtitle="Attendance" />
+        <Appbar.Content title="Attendance Search" subtitle="Attendance" />
       </Appbar.Header>
       <View style={styles.mainbox}>
         <TextInput

@@ -33,6 +33,20 @@ export default function Login({ navigation }) {
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
         setResponse(json);
+        if (json.response === "Success") {
+          console.log("Success");
+          if (json.userType === "admin") {
+            navigation.navigate("AdminHome");
+          } else if (json.userType === "teacher") {
+            navigation.navigate("TeacherHome");
+          } else if (json.userType === "student") {
+            navigation.navigate("StudentHome");
+          }
+        } else {
+          console.log("Failed");
+          setHasLoginFailed(true);
+          // simpleAlertHandler();
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -41,20 +55,6 @@ export default function Login({ navigation }) {
 
     console.log(response);
     console.log(response.response);
-    if (response.response === "Success") {
-      console.log("Success");
-      if (response.userType === "admin") {
-        navigation.navigate("AdminHome");
-      } else if (response.userType === "teacher") {
-        navigation.navigate("TeacherHome");
-      } else if (response.userType === "student") {
-        navigation.navigate("StudentHome");
-      }
-    } else {
-      console.log("Failed");
-      setHasLoginFailed(true);
-      // simpleAlertHandler();
-    }
   };
 
   return (

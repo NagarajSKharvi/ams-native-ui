@@ -52,6 +52,19 @@ const Create = ({ navigation }) => {
       });
   }, []);
 
+  useEffect(() => {
+    {
+      fetch(global.hostUrl + `/attendance/get/${sectionId}`)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          setData(json.studentAttendanceResponses);
+        })
+        .catch((error) => alert(error))
+        .finally(() => setLoading(false));
+    }
+  }, [sectionId]);
+
   const goBack = () => {
     navigation.navigate("Home");
   };
@@ -129,8 +142,8 @@ const Create = ({ navigation }) => {
             subjectId={subjectId}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => {
-              setSubjectId(itemValue);
-              refresh();
+              setSectionId(itemValue);
+              // refresh();
             }}
           >
             {subject.map((s, i) => (
@@ -143,9 +156,8 @@ const Create = ({ navigation }) => {
                   " " +
                   s.subject.subjectName
                 }
-                value={s.subject.subjectId}
+                value={s.subject.classSection.sectionId}
                 onPress={() => {
-                  setSubject(s.subject.subjectId);
                   setSectionId(s.subject.classSection.sectionId);
                 }}
               />

@@ -4,16 +4,6 @@ import React from "react";
 import "../global.js";
 
 export default function Home({ navigation }) {
-  const onClickButton = (values) => {
-    if (values === 1) {
-      console.log("Success");
-      navigation.navigate("DataPage");
-    } else {
-      console.log("Failes");
-      navigation.navigate("DataPage");
-    }
-  };
-
   return (
     <ScrollView>
       <Appbar.Header style={styles.header}>
