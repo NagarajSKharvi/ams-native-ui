@@ -22,7 +22,7 @@ const Create = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(global.hostUrl + `/attendance/get/${sectionId}`)
+    fetch(global.hostUrl + `/attendance/add/${sectionId}`)
       .then((response) => response.json())
       .then((json) => {
         setData(json.studentAttendanceResponses);
@@ -54,7 +54,7 @@ const Create = ({ navigation }) => {
 
   useEffect(() => {
     {
-      fetch(global.hostUrl + `/attendance/get/${sectionId}`)
+      fetch(global.hostUrl + `/attendance/add/${sectionId}`)
         .then((response) => response.json())
         .then((json) => {
           console.log(json);
@@ -90,7 +90,7 @@ const Create = ({ navigation }) => {
 
   const attendanceCreate = async () => {
     setLoading(true);
-    await fetch(global.hostUrl + "/attendance/create", {
+    await fetch(global.hostUrl + "/attendance", {
       method: "POST",
       body: JSON.stringify({
         subjectId,
