@@ -34,7 +34,6 @@ export default function Login({ navigation }) {
       .then((json) => {
         setResponse(json);
         if (json.response === "Success") {
-          console.log("Success");
           if (json.userType === "admin") {
             navigation.navigate("AdminHome");
           } else if (json.userType === "teacher") {
@@ -43,18 +42,14 @@ export default function Login({ navigation }) {
             navigation.navigate("StudentHome");
           }
         } else {
-          console.log("Failed");
           setHasLoginFailed(true);
-          // simpleAlertHandler();
+          alert(json.response);
         }
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
       });
-
-    console.log(response);
-    console.log(response.response);
   };
 
   return (
@@ -102,16 +97,6 @@ export default function Login({ navigation }) {
         width={width * 0.9}
         onPress={() => {
           onClickButton();
-          console.log(response);
-          console.log(response.response);
-          if (response.response === "Success") {
-            console.log("Success");
-            navigation.navigate("AdminHome");
-          } else {
-            console.log("Failed");
-            setHasLoginFailed(true);
-            // simpleAlertHandler();
-          }
         }}
       />
     </View>

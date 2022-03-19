@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Provider, Appbar, Card, Avatar, DataTable } from "react-native-paper";
 
 export default function SSList({ route, navigation }) {
-  const { sId } = route.params;
+  const { cId, sId } = route.params;
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -26,7 +26,7 @@ export default function SSList({ route, navigation }) {
   };
 
   const goBack = () => {
-    navigation.navigate("ClassList");
+    navigation.navigate("SectionList", { cId });
   };
 
   const handleSearch = () => console.log("Searching");

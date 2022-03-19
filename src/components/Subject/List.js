@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 
 const List = ({ route, navigation }) => {
-  const { sId } = route.params;
+  const { cId, sId } = route.params;
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -25,11 +25,11 @@ const List = ({ route, navigation }) => {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("SectionList", { sId });
+    navigation.navigate("SectionList", { cId });
   };
 
   const viewAttendance = (subId) => {
-    navigation.navigate("AttendanceList", { subId });
+    navigation.navigate("AttendanceList", { cId, sId, subId });
   };
 
   return (

@@ -29,11 +29,11 @@ const List = ({ route, navigation }) => {
   };
 
   const viewSubjects = (sId) => {
-    navigation.navigate("SubjectList", { sId });
+    navigation.navigate("SubjectList", { cId, sId });
   };
 
   const viewStudents = (sId) => {
-    navigation.navigate("SectionStudentList", { sId });
+    navigation.navigate("SectionStudentList", { cId, sId });
   };
 
   return (
