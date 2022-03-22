@@ -18,7 +18,7 @@ export default function List({ route, navigation }) {
     const studData = {
       subjectId: `${subId}`,
     };
-    fetch(global.hostUrl + `/attendance`, {
+    fetch(global.hostUrl + `/attendance/list`, {
       method: "POST",
       body: JSON.stringify(studData),
       headers: { "Content-Type": "application/json" },
