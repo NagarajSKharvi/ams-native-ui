@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 
 export default function List({ route, navigation }) {
-  const { subId } = route.params;
+  const { cId, sId, subId } = route.params;
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 

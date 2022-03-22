@@ -71,7 +71,7 @@ const AASearch = ({ navigation }) => {
   }, []);
 
   const attendanceSearch = () => {
-    fetch(global.hostUrl + "/attendance", {
+    fetch(global.hostUrl + "/attendance/list", {
       method: "POST",
       body: JSON.stringify({
         periodId,
