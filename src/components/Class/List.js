@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import {
   Provider,
@@ -8,8 +8,10 @@ import {
   Avatar,
   DataTable,
 } from "react-native-paper";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const List = ({ navigation }) => {
+  const [userType, setUserType] = useState();
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -23,12 +25,28 @@ const List = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
 
+  React.useEffect(() => {
+    readData();
+  }, [userType]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      setUserType(ut);
+    } catch (e) {}
+  };
+
   const goBack = () => {
-    navigation.navigate("Home");
+    if (userType === "student") {
+      navigation.navigate("StudentHome");
+    } else if (userType === "teacher") {
+      navigation.navigate("TeacherHome");
+    } else {
+      navigation.navigate("AdminHome");
+    }
   };
 
   const sectionView = (cId) => {
-    console.log(cId);
     navigation.navigate("SectionList", { cId });
   };
 

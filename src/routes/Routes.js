@@ -17,6 +17,7 @@ import TView from "../components/Teacher/Get";
 import TEdit from "../components/Teacher/Edit";
 import TCreate from "../components/Teacher/Create";
 import AttList from "../components/Attendance/List";
+import MyAttList from "../components/MyAttendance/List";
 import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
@@ -120,6 +121,13 @@ function Routes() {
           <Stack.Screen
             name="SubjectList"
             component={SubList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MyAttendance"
+            component={MyAttList}
             options={{
               headerShown: false,
             }}

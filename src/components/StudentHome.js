@@ -1,18 +1,44 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
   StyleSheet,
   Dimensions,
-  Pressable,
   Platform,
   ScrollView,
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import Cards from "./Cards";
+import AsyncStorage from "@react-native-community/async-storage";
 const { width, height } = Dimensions.get("window");
 
-export default function StudentHome({ navigation, title, onPress }) {
+export default function StudentHome({ navigation }) {
+  const [userType, setUserType] = useState();
+  const [uId, setUId] = useState(null);
+
+  React.useEffect(() => {
+    readData();
+  }, [uId]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      const uid = await AsyncStorage.getItem("userId");
+      setUserType(ut);
+      setUId(uid);
+    } catch (e) {
+      alert("Failed to fetch the data from storage");
+    }
+  };
+
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      alert("Failed to clear the async storage.");
+    }
+  };
+
   return (
     <ScrollView>
       <Appbar.Header style={styles.header}>
@@ -23,14 +49,30 @@ export default function StudentHome({ navigation, title, onPress }) {
         <Cards
           title="View Students"
           style={{
+            backgroundColor: "orange",
+          }}
+          onPress={() => navigation.navigate("StudentList", { userType })}
+        />
+        <Cards
+          title="My Attendance"
+          style={{
             backgroundColor: "dodgerblue",
           }}
-          onPress={() => navigation.navigate("StudentList")}
+          onPress={() => navigation.navigate("MyAttendance", { userType, uId })}
         />
+
+        <Cards
+          title="My Attendance Status"
+          style={{
+            backgroundColor: "lightgreen",
+          }}
+          onPress={() => navigation.navigate("MyAttendance", { userType, uId })}
+        />
+
         <Cards
           title="Attendance Search"
           style={{
-            backgroundColor: "aquamarine",
+            backgroundColor: "#de5135",
           }}
           onPress={() => navigation.navigate("AttendanceSearch")}
         />
@@ -38,9 +80,12 @@ export default function StudentHome({ navigation, title, onPress }) {
         <Cards
           title="Logout"
           style={{
-            backgroundColor: "dodgerblue",
+            backgroundColor: "aquamarine",
           }}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => {
+            clearStorage();
+            navigation.navigate("Login");
+          }}
         />
       </View>
     </ScrollView>

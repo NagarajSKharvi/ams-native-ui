@@ -9,6 +9,7 @@ import {
   View,
   Platform,
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const { width, height } = Dimensions.get("window");
 export default function Login({ navigation }) {
@@ -34,11 +35,14 @@ export default function Login({ navigation }) {
       .then((json) => {
         setResponse(json);
         if (json.response === "Success") {
-          if (json.userType === "admin") {
+          const userType = json.userType;
+          AsyncStorage.setItem("userType", userType);
+          AsyncStorage.setItem("userId", json.id);
+          if (userType === "admin") {
             navigation.navigate("AdminHome");
-          } else if (json.userType === "teacher") {
+          } else if (userType === "teacher") {
             navigation.navigate("TeacherHome");
-          } else if (json.userType === "student") {
+          } else if (userType === "student") {
             navigation.navigate("StudentHome");
           }
         } else {

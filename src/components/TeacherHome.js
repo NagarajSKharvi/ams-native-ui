@@ -1,18 +1,44 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
   StyleSheet,
   Dimensions,
-  Pressable,
   Platform,
   ScrollView,
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import Cards from "./Cards";
+import AsyncStorage from "@react-native-community/async-storage";
 const { width, height } = Dimensions.get("window");
 
-export default function TeacherHome({ navigation, title, onPress }) {
+export default function TeacherHome({ navigation }) {
+  const [userType, setUserType] = useState();
+  const [uId, setUId] = useState(null);
+
+  React.useEffect(() => {
+    readData();
+  }, [uId]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      const uid = await AsyncStorage.getItem("userId");
+      setUserType(ut);
+      setUId(uid);
+    } catch (e) {
+      alert("Failed to fetch the data from storage");
+    }
+  };
+
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      alert("Failed to clear the async storage.");
+    }
+  };
+
   return (
     <ScrollView>
       <Appbar.Header style={styles.header}>
@@ -25,7 +51,7 @@ export default function TeacherHome({ navigation, title, onPress }) {
           style={{
             backgroundColor: "dodgerblue",
           }}
-          onPress={() => navigation.navigate("StudentList")}
+          onPress={() => navigation.navigate("StudentList", { userType })}
         />
         <Cards
           title="Search Students"
@@ -53,14 +79,19 @@ export default function TeacherHome({ navigation, title, onPress }) {
           style={{
             backgroundColor: "#de5135",
           }}
-          onPress={() => navigation.navigate("AttendanceCreate", "1")}
+          onPress={() =>
+            navigation.navigate("AttendanceCreate", { userType, uId })
+          }
         />
         <Cards
           title="Logout"
           style={{
             backgroundColor: "dodgerblue",
           }}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => {
+            clearStorage();
+            navigation.navigate("Login");
+          }}
         />
       </View>
     </ScrollView>

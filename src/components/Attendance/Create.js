@@ -10,8 +10,8 @@ import {
 } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 
-const Create = ({ navigation }) => {
-  const [teachId, setTeachId] = useState(1);
+const Create = ({ route, navigation }) => {
+  const { userType, uId } = route.params;
   const [date, setDate] = useState();
   const [periodId, setPeriodId] = useState(1);
   const [sectionId, setSectionId] = useState(1);
@@ -41,7 +41,7 @@ const Create = ({ navigation }) => {
         setDate(getCurrentDate());
       });
 
-    fetch(global.hostUrl + `/ams/teacher-subject/${teachId}`)
+    fetch(global.hostUrl + `/ams/teacher-subject/${uId}`)
       .then((response) => response.json())
       .then((json) => {
         setSubject(json);
@@ -66,19 +66,13 @@ const Create = ({ navigation }) => {
   }, [sectionId]);
 
   const goBack = () => {
-    navigation.navigate("Home");
-  };
-
-  const refresh = () => {
-    console.log("My dat");
-    fetch(global.hostUrl + `/attendance/get/${sectionId}`)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setData(json.studentAttendanceResponses);
-      })
-      .catch((error) => alert(error))
-      .finally(() => setLoading(false));
+    if (userType === "student") {
+      navigation.navigate("StudentHome");
+    } else if (userType === "teacher") {
+      navigation.navigate("TeacherHome");
+    } else {
+      navigation.navigate("AdminHome");
+    }
   };
 
   const getCurrentDate = () => {
@@ -96,7 +90,7 @@ const Create = ({ navigation }) => {
         subjectId,
         date,
         periodId,
-        teachId,
+        uId,
         studentAttendanceRequests: data,
       }),
       headers: { "Content-Type": "application/json" },
@@ -143,7 +137,6 @@ const Create = ({ navigation }) => {
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => {
               setSectionId(itemValue);
-              // refresh();
             }}
           >
             {subject.map((s, i) => (

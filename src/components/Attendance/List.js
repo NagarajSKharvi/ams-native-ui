@@ -23,7 +23,6 @@ export default function List({ route, navigation }) {
       body: JSON.stringify(studData),
       headers: { "Content-Type": "application/json" },
     })
-      // fetch(global.hostUrl + `/attendance/${subId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
         setData(json);
@@ -33,12 +32,12 @@ export default function List({ route, navigation }) {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("SubjectList", { subId });
+    navigation.navigate("SubjectList", { cId, sId });
   };
 
   const attendanceView = (aId) => {
     console.log(aId);
-    navigation.navigate("AttendanceView", { aId });
+    navigation.navigate("AttendanceView", { cId, sId, subId, aId });
   };
 
   return (

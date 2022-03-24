@@ -2,7 +2,8 @@ import React from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Provider, Appbar, Card, Avatar, DataTable } from "react-native-paper";
 
-export default function List({ navigation }) {
+export default function List({ route, navigation }) {
+  const { userType } = route.params;
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -25,7 +26,13 @@ export default function List({ navigation }) {
   };
 
   const goBack = () => {
-    navigation.navigate("Home");
+    if (userType === "student") {
+      navigation.navigate("StudentHome");
+    } else if (userType === "teacher") {
+      navigation.navigate("TeacherHome");
+    } else {
+      navigation.navigate("AdminHome");
+    }
   };
 
   const handleSearch = () => console.log("Searching");
