@@ -22,6 +22,7 @@ import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
 import AASearch from "../components/Attendance/AASearch";
+import AAGet from "../components/Attendance/AAGet";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
 import SubList from "../components/Subject/List";
@@ -163,6 +164,13 @@ function Routes() {
           <Stack.Screen
             name="AASearch"
             component={AASearch}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AAGet"
+            component={AAGet}
             options={{
               headerShown: false,
             }}

@@ -48,7 +48,7 @@ const Search = ({ navigation }) => {
   };
 
   const goBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("AdminHome");
   };
 
   const ItemView = ({ item }) => {
@@ -76,11 +76,9 @@ const Search = ({ navigation }) => {
   };
 
   const getItem = (item) => {
-    // Function for click on an item
-    // alert("Id : " + item.id + " Title : " + item.title);
     console.log(item.id);
     const pId = item.id;
-    // navigation.navigate("StudentView", pId);
+    navigation.navigate("StudentView", { pId });
   };
 
   return (

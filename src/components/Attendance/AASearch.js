@@ -91,12 +91,12 @@ const AASearch = ({ navigation }) => {
       });
   };
   const goBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("AdminHome");
   };
 
   const attendanceView = (aId) => {
     console.log(aId);
-    navigation.navigate("AttendanceView", { aId });
+    navigation.navigate("AAGet", { aId });
   };
 
   const onChange = (event, selectedDate) => {

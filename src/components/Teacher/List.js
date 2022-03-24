@@ -25,7 +25,7 @@ export default function List({ navigation }) {
   };
 
   const goBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("AdminHome");
   };
 
   const handleSearch = () => console.log("Searching");
