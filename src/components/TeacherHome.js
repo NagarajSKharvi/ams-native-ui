@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import Cards from "./Cards";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width, height } = Dimensions.get("window");
 
 export default function TeacherHome({ navigation }) {
