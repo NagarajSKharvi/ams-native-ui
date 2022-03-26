@@ -66,7 +66,9 @@ export default function StudentHome({ navigation }) {
           style={{
             backgroundColor: "lightgreen",
           }}
-          onPress={() => navigation.navigate("MyAttendance", { userType, uId })}
+          onPress={() =>
+            navigation.navigate("AttendancePercentage", { userType, uId })
+          }
         />
 
         <Cards

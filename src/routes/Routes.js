@@ -20,6 +20,7 @@ import TEdit from "../components/Teacher/Edit";
 import TCreate from "../components/Teacher/Create";
 import AttList from "../components/Attendance/List";
 import MyAttList from "../components/MyAttendance/List";
+import AttendancePercentage from "../components/MyAttendance/AttendancePercentage";
 import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
@@ -30,6 +31,7 @@ import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
 import SubList from "../components/Subject/List";
 import Signup from "../components/Signup";
+import ResetPassword from "../components/ResetPassword";
 
 const Stack = createNativeStackNavigator();
 function Routes() {
@@ -39,6 +41,7 @@ function Routes() {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="ResetPassword" component={ResetPassword} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen
             name="StudentList"
@@ -148,6 +151,13 @@ function Routes() {
           <Stack.Screen
             name="MyAttendance"
             component={MyAttList}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AttendancePercentage"
+            component={AttendancePercentage}
             options={{
               headerShown: false,
             }}

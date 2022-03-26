@@ -7,64 +7,58 @@ import {
   Text,
   View,
   Platform,
+  Picker,
+  Switch,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
-export default function Login({ navigation }) {
+export default function ResetPassword({ navigation }) {
+  const [number, setNumber] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [response, setResponse] = useState({ response: "Login Failed" });
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [passwordVisible, setPasswordVisible] = useState(true);
-  const [loading, setLoading] = useState();
-  const [hasLoginFailed, setHasLoginFailed] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [disable, setDisable] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
 
   React.useEffect(() => {
     checkAllValues();
-  }, [username, password]);
+  }, [number, username, password, confirmPassword]);
 
   const checkAllValues = () => {
-    if (username !== "" && password !== "") {
+    if (
+      number !== "" &&
+      username !== "" &&
+      password !== "" &&
+      confirmPassword !== ""
+    ) {
       return setDisable(false);
     }
     return setDisable(true);
   };
 
   const onClickButton = async () => {
-    await fetch(global.hostUrl + "/login", {
+    await fetch(global.hostUrl + "/reset", {
       method: "POST",
       body: JSON.stringify({
         username,
         password,
+        number,
       }),
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        setResponse(json);
-        if (json.response === "Success") {
-          const userType = json.userType;
-          AsyncStorage.setItem("userType", userType);
-          AsyncStorage.setItem("userId", json.id.toString());
-          if (userType === "admin") {
-            navigation.navigate("AdminHome");
-          } else if (userType === "teacher") {
-            navigation.navigate("TeacherHome");
-          } else if (userType === "student") {
-            navigation.navigate("StudentHome");
-          }
+        if (json.status === 500) {
+          alert(json.message);
         } else {
-          setHasLoginFailed(true);
-          alert(json.response);
+          alert("Your password has been changed");
+          navigation.navigate("Login");
         }
       })
       .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => {});
   };
 
   return (
@@ -82,22 +76,34 @@ export default function Login({ navigation }) {
             fontSize: 30,
           }}
         >
-          AMS
+          Reset Password
         </Text>
       </View>
 
       <TextInput
         style={styles.textInput}
-        placeholder="Username"
+        placeholder="Enter your Roll Number/ Teacher Number"
+        onChangeText={(text) => {
+          setNumber(text);
+        }}
+        value={number}
+      />
+
+      <TextInput
+        style={styles.textInput}
+        placeholder="Enter your EmailId"
         onChangeText={(text) => {
           setUsername(text);
         }}
         value={username}
       />
+      {/* {username.length < 5 && (
+        <Text style={{ color: "red" }}>{"Please Enter atleast 5 chars"}</Text>
+      )} */}
       <TextInput
         style={styles.textInput}
         textContentType="password"
-        placeholder="Password"
+        placeholder="Enter your Password"
         onChangeText={(text) => {
           setPassword(text);
         }}
@@ -110,8 +116,24 @@ export default function Login({ navigation }) {
           />
         }
       />
+      <TextInput
+        style={styles.textInput}
+        textContentType="password"
+        placeholder="Re-enter your Password"
+        onChangeText={(text) => {
+          setConfirmPassword(text);
+        }}
+        value={confirmPassword}
+        secureTextEntry={confirmPasswordVisible}
+        right={
+          <TextInput.Icon
+            name={confirmPasswordVisible ? "eye" : "eye-off"}
+            onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+          />
+        }
+      />
       <Button
-        title="Login"
+        title="Reset Password"
         style={styles.button}
         width={width * 0.9}
         disabled={disable}
@@ -119,54 +141,14 @@ export default function Login({ navigation }) {
           onClickButton();
         }}
       />
-      <View
-        style={{
-          flex: 1 / 4,
-          justifyContent: "center",
+      <Button
+        title="Back to Login"
+        style={styles.button}
+        width={width * 0.9}
+        onPress={() => {
+          navigation.navigate("Login");
         }}
-      >
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 10,
-          }}
-        >
-          <Button
-            title="Forgot Password"
-            style={styles.button}
-            width={width * 0.9}
-            height={1}
-            onPress={() => {
-              navigation.navigate("ResetPassword");
-            }}
-          />
-        </Text>
-      </View>
-
-      <View
-        style={{
-          flex: 1 / 4,
-          justifyContent: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 10,
-          }}
-        >
-          Don't have an account ?
-          <Button
-            title="Sign Up"
-            style={styles.button}
-            width={width * 0.9}
-            height={1}
-            onPress={() => {
-              navigation.navigate("Signup");
-            }}
-          />
-        </Text>
-      </View>
+      />
     </View>
   );
 }
