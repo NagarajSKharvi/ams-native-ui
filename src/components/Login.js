@@ -103,6 +103,30 @@ export default function Login({ navigation }) {
           onClickButton();
         }}
       />
+      <View
+        style={{
+          flex: 1 / 4,
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 10,
+          }}
+        >
+          Don't have an account ?
+          <Button
+            title="Sign Up"
+            style={styles.button}
+            width={width * 0.9}
+            height={1}
+            onPress={() => {
+              navigation.navigate("Signup");
+            }}
+          />
+        </Text>
+      </View>
     </View>
   );
 }

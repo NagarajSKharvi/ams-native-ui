@@ -26,14 +26,16 @@ import AAGet from "../components/Attendance/AAGet";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
 import SubList from "../components/Subject/List";
+import Signup from "../components/Signup";
 
 const Stack = createNativeStackNavigator();
 function Routes() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Signup">
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen
             name="StudentList"
