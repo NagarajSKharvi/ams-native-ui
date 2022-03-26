@@ -11,6 +11,8 @@ import SSList from "../components/Students/SSList";
 import SView from "../components/Students/Get";
 import SEdit from "../components/Students/Edit";
 import SSearch from "../components/Students/Search";
+import SearchedGet from "../components/Students/SearchedGet";
+import MyDetailsGet from "../components/Students/MyDetailsGet";
 import SCreate from "../components/Students/Create";
 import TList from "../components/Teacher/List";
 import TView from "../components/Teacher/Get";
@@ -22,6 +24,7 @@ import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
 import AASearch from "../components/Attendance/AASearch";
+import TASearch from "../components/Attendance/TASearch";
 import AAGet from "../components/Attendance/AAGet";
 import CList from "../components/Class/List";
 import SecList from "../components/Section/List";
@@ -75,6 +78,20 @@ function Routes() {
           <Stack.Screen
             name="StudentSearch"
             component={SSearch}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SearchedGet"
+            component={SearchedGet}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MyDetailsGet"
+            component={MyDetailsGet}
             options={{
               headerShown: false,
             }}
@@ -166,6 +183,13 @@ function Routes() {
           <Stack.Screen
             name="AASearch"
             component={AASearch}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="TASearch"
+            component={TASearch}
             options={{
               headerShown: false,
             }}

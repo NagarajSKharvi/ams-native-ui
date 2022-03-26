@@ -57,7 +57,7 @@ export default function AdminHome({ navigation, title, onPress }) {
         <Cards
           title="View Students"
           style={{
-            backgroundColor: "dodgerblue",
+            backgroundColor: "lightgreen",
           }}
           onPress={() => navigation.navigate("StudentList", { userType })}
         />
@@ -81,14 +81,6 @@ export default function AdminHome({ navigation, title, onPress }) {
             backgroundColor: "aquamarine",
           }}
           onPress={() => navigation.navigate("AASearch")}
-        />
-
-        <Cards
-          title="Create Account"
-          style={{
-            backgroundColor: "lightgreen",
-          }}
-          onPress={() => {}}
         />
         <Cards
           title="Logout"

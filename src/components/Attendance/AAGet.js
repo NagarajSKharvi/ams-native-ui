@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 
 export default function AAGet({ route, navigation }) {
-  const { aId } = route.params;
+  const { aId, teachId, source } = route.params;
   const [data, setData] = React.useState();
   const [studs, setStuds] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -29,7 +29,11 @@ export default function AAGet({ route, navigation }) {
   }, []);
 
   const goBack = () => {
-    navigation.navigate("AASearch");
+    if (source === "TASearch") {
+      navigation.navigate(source, { teachId });
+    } else {
+      navigation.navigate(source);
+    }
   };
 
   return (

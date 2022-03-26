@@ -8,8 +8,10 @@ import {
   TextInput,
 } from "react-native";
 import { Provider, Appbar, Card, Avatar, DataTable } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Search = ({ navigation }) => {
+  const [userType, setUserType] = useState("");
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -25,6 +27,17 @@ const Search = ({ navigation }) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    readData();
+  }, [userType]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      setUserType(ut);
+    } catch (e) {}
+  };
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -48,7 +61,14 @@ const Search = ({ navigation }) => {
   };
 
   const goBack = () => {
-    navigation.navigate("AdminHome");
+    console.log(userType);
+    if (userType === "student") {
+      navigation.navigate("StudentHome");
+    } else if (userType === "teacher") {
+      navigation.navigate("TeacherHome");
+    } else {
+      navigation.navigate("AdminHome");
+    }
   };
 
   const ItemView = ({ item }) => {
@@ -78,7 +98,7 @@ const Search = ({ navigation }) => {
   const getItem = (item) => {
     console.log(item.id);
     const pId = item.id;
-    navigation.navigate("StudentView", { pId });
+    navigation.navigate("SearchedGet", { pId });
   };
 
   return (

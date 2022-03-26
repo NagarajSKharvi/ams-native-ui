@@ -10,12 +10,12 @@ import {
 } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const AASearch = ({ navigation }) => {
+const TASearch = ({ route, navigation }) => {
+  const { teachId } = route.params;
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [text, setText] = useState(null);
-  const [teachId, setTeachId] = useState(null);
   const [periodId, setPeriodId] = useState(null);
   const [sectionId, setSectionId] = useState(1);
   const [subjectId, setSubjectId] = useState(null);
@@ -91,12 +91,12 @@ const AASearch = ({ navigation }) => {
       });
   };
   const goBack = () => {
-    navigation.navigate("AdminHome");
+    navigation.navigate("TeacherHome");
   };
 
   const attendanceView = (aId) => {
     console.log(aId);
-    navigation.navigate("AAGet", { aId, source: "AASearch" });
+    navigation.navigate("AAGet", { aId, teachId, source: "TASearch" });
   };
 
   const onChange = (event, selectedDate) => {
@@ -157,23 +157,6 @@ const AASearch = ({ navigation }) => {
               label={p.periodId ? p.fromTime + " - " + p.toTime : p.fromTime}
               value={p.periodId}
               onPress={() => setPeriodId(p.periodId)}
-            />
-          ))}
-        </Picker>
-      </Card>
-      <Card>
-        <Chip>Select Teacher</Chip>
-        <Picker
-          teachId={teachId}
-          style={{ height: 50, width: 185 }}
-          onValueChange={(itemValue, itemIndex) => setTeachId(itemValue)}
-        >
-          {teacher.map((p, i) => (
-            <Picker.Item
-              key={i}
-              label={p.teacherNumber}
-              value={p.id}
-              onPress={() => setTeachId(p.id)}
             />
           ))}
         </Picker>
@@ -251,7 +234,7 @@ const AASearch = ({ navigation }) => {
   );
 };
 
-export default AASearch;
+export default TASearch;
 
 const styles = StyleSheet.create({
   text: {

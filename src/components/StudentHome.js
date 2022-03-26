@@ -47,11 +47,11 @@ export default function StudentHome({ navigation }) {
 
       <View style={styles.container}>
         <Cards
-          title="View Students"
+          title="View My Details"
           style={{
             backgroundColor: "orange",
           }}
-          onPress={() => navigation.navigate("StudentList", { userType })}
+          onPress={() => navigation.navigate("MyDetailsGet", { pId: uId })}
         />
         <Cards
           title="My Attendance"

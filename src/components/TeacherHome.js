@@ -47,13 +47,6 @@ export default function TeacherHome({ navigation }) {
 
       <View style={styles.container}>
         <Cards
-          title="View Students"
-          style={{
-            backgroundColor: "dodgerblue",
-          }}
-          onPress={() => navigation.navigate("StudentList", { userType })}
-        />
-        <Cards
           title="Search Students"
           style={{
             backgroundColor: "lightgreen",
@@ -72,7 +65,7 @@ export default function TeacherHome({ navigation }) {
           style={{
             backgroundColor: "aquamarine",
           }}
-          onPress={() => navigation.navigate("AttendanceSearch")}
+          onPress={() => navigation.navigate("TASearch", { teachId: uId })}
         />
         <Cards
           title="Add Attendance"

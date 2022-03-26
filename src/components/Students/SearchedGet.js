@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, TextInput, Appbar } from "react-native-paper";
 import StudentEdit from "./Edit";
 
-const Get = ({ route, navigation }) => {
+const SearchedGet = ({ route, navigation }) => {
   const { pId } = route.params;
   const [userType, setUserType] = useState();
   const [id, setId] = useState("");
@@ -47,7 +47,7 @@ const Get = ({ route, navigation }) => {
   };
 
   const goBack = () => {
-    navigation.navigate("StudentList", { userType });
+    navigation.navigate("StudentSearch");
   };
 
   const studentDeleteAlert = () =>
@@ -98,36 +98,11 @@ const Get = ({ route, navigation }) => {
         label="Mobile number"
         value={mobileNumber?.toString()}
       />
-
-      <Button
-        mode="contained"
-        onPress={() =>
-          navigation.navigate("StudentEdit", {
-            pId: id,
-            pRollNumber: rollNumber,
-            pFName: firstName,
-            pMName: middleName,
-            pLName: lastName,
-            pGender: gender,
-            pDob: dob,
-            pMobileNumber: mobileNumber,
-          })
-        }
-        style={{
-          marginTop: 20,
-        }}
-      >
-        <Text>Edit</Text>
-      </Button>
-      <Text></Text>
-      <Button mode="contained" onPress={studentDeleteAlert}>
-        <Text>Delete</Text>
-      </Button>
     </View>
   );
 };
 
-export default Get;
+export default SearchedGet;
 
 const styles = StyleSheet.create({
   text: {
