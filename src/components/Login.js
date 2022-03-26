@@ -5,10 +5,10 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TextInput,
   View,
   Platform,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
@@ -17,10 +17,21 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [response, setResponse] = useState({ response: "Login Failed" });
   const [errorMessage, setErrorMessage] = useState(null);
+  const [passwordVisible, setPasswordVisible] = useState(true);
   const [loading, setLoading] = useState();
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
+  const [disable, setDisable] = useState(true);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    checkAllValues();
+  }, [username, password]);
+
+  const checkAllValues = () => {
+    if (username !== "" && password !== "") {
+      return setDisable(false);
+    }
+    return setDisable(true);
+  };
 
   const onClickButton = async () => {
     await fetch(global.hostUrl + "/login", {
@@ -83,9 +94,6 @@ export default function Login({ navigation }) {
         }}
         value={username}
       />
-      {/* {username.length < 5 && (
-        <Text style={{ color: "red" }}>{"Please Enter atleast 5 chars"}</Text>
-      )} */}
       <TextInput
         style={styles.textInput}
         textContentType="password"
@@ -94,11 +102,19 @@ export default function Login({ navigation }) {
           setPassword(text);
         }}
         value={password}
+        secureTextEntry={passwordVisible}
+        right={
+          <TextInput.Icon
+            name={passwordVisible ? "eye" : "eye-off"}
+            onPress={() => setPasswordVisible(!passwordVisible)}
+          />
+        }
       />
       <Button
         title="Login"
         style={styles.button}
         width={width * 0.9}
+        disabled={disable}
         onPress={() => {
           onClickButton();
         }}

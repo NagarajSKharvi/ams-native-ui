@@ -27,10 +27,15 @@ export default function Signup({ navigation }) {
 
   React.useEffect(() => {
     checkAllValues();
-  }, [number, username, password]);
+  }, [number, username, password, confirmPassword]);
 
   const checkAllValues = () => {
-    if (number !== "" && username !== "" && password !== "") {
+    if (
+      number !== "" &&
+      username !== "" &&
+      password !== "" &&
+      confirmPassword !== ""
+    ) {
       return setDisable(false);
     }
     return setDisable(true);
@@ -49,7 +54,6 @@ export default function Signup({ navigation }) {
     })
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        console.log(json);
         if (json.status === 500) {
           alert(json.message);
         } else {
@@ -126,7 +130,7 @@ export default function Signup({ navigation }) {
       />
       <TextInput
         style={styles.textInput}
-        textContentType="confirmPassword"
+        textContentType="password"
         placeholder="Re-enter your Password"
         onChangeText={(text) => {
           setConfirmPassword(text);
@@ -147,6 +151,14 @@ export default function Signup({ navigation }) {
         disabled={disable}
         onPress={() => {
           onClickButton();
+        }}
+      />
+      <Button
+        title="Back to Login"
+        style={styles.button}
+        width={width * 0.9}
+        onPress={() => {
+          navigation.navigate("Login");
         }}
       />
     </View>
