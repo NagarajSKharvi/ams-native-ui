@@ -70,14 +70,6 @@ export default function StudentHome({ navigation }) {
         />
 
         <Cards
-          title="Attendance Search"
-          style={{
-            backgroundColor: "#de5135",
-          }}
-          onPress={() => navigation.navigate("AttendanceSearch")}
-        />
-
-        <Cards
           title="Logout"
           style={{
             backgroundColor: "aquamarine",

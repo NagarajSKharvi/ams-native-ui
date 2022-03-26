@@ -47,7 +47,7 @@ const AASearch = ({ navigation }) => {
         setTeacher([
           {
             id: null,
-            teacherNumber: "Select",
+            name: "Select",
           },
           ...json,
         ]);
@@ -171,7 +171,7 @@ const AASearch = ({ navigation }) => {
           {teacher.map((p, i) => (
             <Picker.Item
               key={i}
-              label={p.teacherNumber}
+              label={p.name}
               value={p.id}
               onPress={() => setTeachId(p.id)}
             />
