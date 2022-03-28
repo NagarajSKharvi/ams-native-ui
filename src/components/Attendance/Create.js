@@ -90,7 +90,7 @@ const Create = ({ route, navigation }) => {
         subjectId,
         date,
         periodId,
-        uId,
+        teachId: uId,
         studentAttendanceRequests: data,
       }),
       headers: { "Content-Type": "application/json" },
@@ -136,7 +136,7 @@ const Create = ({ route, navigation }) => {
             subjectId={subjectId}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => {
-              setSectionId(itemValue);
+              setSubjectId(itemValue);
             }}
           >
             {subject.map((s, i) => (
@@ -183,7 +183,7 @@ const Create = ({ route, navigation }) => {
           mode="contained"
           onPress={() => {
             attendanceCreate();
-            navigation.navigate("Home");
+            navigation.navigate("TeacherHome");
           }}
           style={{
             marginTop: 20,

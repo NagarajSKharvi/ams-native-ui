@@ -13,6 +13,7 @@ const Edit = ({ route, navigation }) => {
     pDob,
     pMobileNumber,
   } = route.params;
+  const [userType, setUserType] = useState();
   const [id, setId] = useState(pId);
   const [rollNumber, setRollNumber] = useState(pRollNumber);
   const [firstName, setFirstName] = useState(pFName);
@@ -33,6 +34,17 @@ const Edit = ({ route, navigation }) => {
     setDob(pDob);
     setMobileNumber(pMobileNumber);
   }, [pId, pFName]);
+
+  useEffect(() => {
+    readData();
+  }, [userType]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      setUserType(ut);
+    } catch (e) {}
+  };
 
   const goBack = () => {
     navigation.navigate("StudentView");
@@ -61,7 +73,7 @@ const Edit = ({ route, navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         isLoading(false);
-        navigation.navigate("StudentList");
+        navigation.navigate("StudentList", { userType });
       });
   };
 
