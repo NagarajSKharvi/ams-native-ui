@@ -54,7 +54,7 @@ const Create = ({ route, navigation }) => {
 
   useEffect(() => {
     {
-      fetch(global.hostUrl + `/attendance/add/${sectionId}`)
+      fetch(global.hostUrl + `/attendance/add/${subjectId}`)
         .then((response) => response.json())
         .then((json) => {
           console.log(json);
@@ -63,7 +63,7 @@ const Create = ({ route, navigation }) => {
         .catch((error) => alert(error))
         .finally(() => setLoading(false));
     }
-  }, [sectionId]);
+  }, [subjectId]);
 
   const goBack = () => {
     if (userType === "student") {
@@ -136,6 +136,8 @@ const Create = ({ route, navigation }) => {
             subjectId={subjectId}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => {
+              console.log("onValueChange");
+              console.log(itemValue);
               setSubjectId(itemValue);
             }}
           >
@@ -149,8 +151,9 @@ const Create = ({ route, navigation }) => {
                   " " +
                   s.subject.subjectName
                 }
-                value={s.subject.classSection.sectionId}
+                value={s.subject.subjectId}
                 onPress={() => {
+                  console.log("Onpress");
                   setSectionId(s.subject.classSection.sectionId);
                 }}
               />
