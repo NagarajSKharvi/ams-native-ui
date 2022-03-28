@@ -36,7 +36,12 @@ export default function SSList({ route, navigation }) {
   };
 
   const studentView = (pId) => {
-    navigation.navigate("StudentView", { pId });
+    navigation.navigate("StudentView", {
+      source: "SectionStudent",
+      cId,
+      sId,
+      pId,
+    });
   };
 
   return (

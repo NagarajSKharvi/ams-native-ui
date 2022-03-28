@@ -47,7 +47,7 @@ const Edit = ({ route, navigation }) => {
   };
 
   const goBack = () => {
-    navigation.navigate("StudentView");
+    navigation.navigate("StudentView", { pId });
   };
 
   const studentEdit = async () => {

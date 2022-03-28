@@ -4,7 +4,7 @@ import { Button, TextInput, Appbar } from "react-native-paper";
 import StudentEdit from "./Edit";
 
 const Get = ({ route, navigation }) => {
-  const { pId } = route.params;
+  const { source, cId, sId, pId } = route.params;
   const [userType, setUserType] = useState();
   const [id, setId] = useState("");
   const [rollNumber, setRollNumber] = useState("");
@@ -47,7 +47,11 @@ const Get = ({ route, navigation }) => {
   };
 
   const goBack = () => {
-    navigation.navigate("StudentList", { userType });
+    if (source === "SectionStudent") {
+      navigation.navigate("SectionStudentList", { cId, sId });
+    } else {
+      navigation.navigate("StudentList", { userType });
+    }
   };
 
   const studentDeleteAlert = () =>
