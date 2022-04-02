@@ -9,16 +9,20 @@ import {
   TextInput,
 } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Create = ({ route, navigation }) => {
   const { userType, uId } = route.params;
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date());
   const [periodId, setPeriodId] = useState(1);
   const [sectionId, setSectionId] = useState(1);
   const [subjectId, setSubjectId] = useState(1);
   const [data, setData] = useState([]);
   const [period, setPeriod] = useState([]);
   const [subject, setSubject] = useState([]);
+  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState("date");
+  const [text, setText] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -38,7 +42,7 @@ const Create = ({ route, navigation }) => {
       .catch((error) => alert(error))
       .finally(() => {
         setLoading(false);
-        setDate(getCurrentDate());
+        setText(getCurrentDate());
       });
 
     fetch(global.hostUrl + `/ams/teacher-subject/${uId}`)
@@ -57,7 +61,6 @@ const Create = ({ route, navigation }) => {
       fetch(global.hostUrl + `/attendance/add/${subjectId}`)
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           setData(json.studentAttendanceResponses);
         })
         .catch((error) => alert(error))
@@ -82,6 +85,20 @@ const Create = ({ route, navigation }) => {
     return [year, month, date].join("-");
   };
 
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+    setShow(Platform.OS === "ios");
+    var date1 = currentDate.getDate().toString().padStart(2, "0");
+    var month1 = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    setText([currentDate.getFullYear(), month1, date1].join("-"));
+  };
+
   const attendanceCreate = async () => {
     setLoading(true);
     await fetch(global.hostUrl + "/attendance", {
@@ -97,7 +114,11 @@ const Create = ({ route, navigation }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("attendence added successfully", data);
+        if (data.status === 500) {
+          alert(data.message);
+        } else {
+          navigation.navigate("TeacherHome");
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -112,7 +133,31 @@ const Create = ({ route, navigation }) => {
         <Appbar.Content title="Attendance Create" subtitle="Attendance" />
       </Appbar.Header>
       <View style={styles.mainbox}>
-        <TextInput label="Attendance Date" value={date} />
+        <TextInput editable={false} label="Attendance Date" value={text} />
+        <View>
+          <Button
+            mode="contained"
+            title="Show date picker!"
+            onPress={() => showMode("date")}
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Text>Select Date</Text>
+          </Button>
+        </View>
+
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+        )}
+
         <Card>
           <Chip>Select Period</Chip>
           <Picker
@@ -136,8 +181,6 @@ const Create = ({ route, navigation }) => {
             subjectId={subjectId}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => {
-              console.log("onValueChange");
-              console.log(itemValue);
               setSubjectId(itemValue);
             }}
           >
@@ -153,7 +196,6 @@ const Create = ({ route, navigation }) => {
                 }
                 value={s.subject.subjectId}
                 onPress={() => {
-                  console.log("Onpress");
                   setSectionId(s.subject.classSection.sectionId);
                 }}
               />
@@ -186,7 +228,6 @@ const Create = ({ route, navigation }) => {
           mode="contained"
           onPress={() => {
             attendanceCreate();
-            navigation.navigate("TeacherHome");
           }}
           style={{
             marginTop: 20,
