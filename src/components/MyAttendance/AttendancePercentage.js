@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 import {
   Provider,
   Appbar,
@@ -8,6 +9,7 @@ import {
   Avatar,
   DataTable,
 } from "react-native-paper";
+import { Circle } from "react-native-svg";
 
 export default function AttendancePercentage({ route, navigation }) {
   const { userType, uId } = route.params;
@@ -47,6 +49,25 @@ export default function AttendancePercentage({ route, navigation }) {
         <View style={styles.mainbox}>
           <Text>{data}</Text>
         </View>
+        <AnimatedCircularProgress
+          size={120}
+          width={15}
+          fill={90}
+          tintColor="#00e0ff"
+          onAnimationComplete={() => console.log("onAnimationComplete")}
+          backgroundColor="#3d5875"
+        >
+          {(fill) => <Text>{90}</Text>}
+        </AnimatedCircularProgress>
+        <AnimatedCircularProgress
+          size={150}
+          width={20}
+          fill={20}
+          tintColor="#00e0ff"
+          backgroundColor="#3d5875"
+        >
+          {(fill) => <Text>{10}</Text>}
+        </AnimatedCircularProgress>
       </ScrollView>
     </Provider>
   );
