@@ -9,6 +9,7 @@ import {
   Platform,
   Picker,
   Switch,
+  Pressable,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { useValidation } from "react-native-form-validator";
@@ -84,13 +85,47 @@ export default function Signup({ navigation }) {
         </Text>
       </View>
 
-      <View style={styles.textInput}>
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={student ? "#f5dd4b" : "#f4f3f4"}
-          onValueChange={toggleSwitch}
-          value={student}
-        />
+      <View
+        style={[
+          styles.textInput,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          },
+        ]}
+      >
+        <View>
+          <Text
+            style={{
+              color: "black",
+            }}
+          >
+            Account Type
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: "black",
+              fontWeight: "700",
+            }}
+          >
+            {student ? "Student" : "Teacher"}
+          </Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={student ? "#f5dd4b" : "#f4f3f4"}
+            onValueChange={toggleSwitch}
+            value={student}
+          />
+        </View>
       </View>
       <TextInput
         style={styles.textInput}
@@ -144,23 +179,58 @@ export default function Signup({ navigation }) {
           />
         }
       />
-      <Button
-        title="Register"
-        style={styles.button}
-        width={width * 0.9}
-        disabled={disable}
+
+      <Pressable
+        style={{
+          width: width * 0.85,
+          backgroundColor: "dodgerblue",
+          height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 7,
+          marginBottom: 20,
+        }}
+        android_ripple={{
+          color: "lightgrey",
+        }}
         onPress={() => {
           onClickButton();
         }}
-      />
-      <Button
-        title="Back to Login"
-        style={styles.button}
-        width={width * 0.9}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 15,
+            fontWeight: "bold",
+          }}
+        >
+          Register
+        </Text>
+      </Pressable>
+
+      <Pressable
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 7,
+        }}
+        android_ripple={{
+          color: "lightgrey",
+        }}
         onPress={() => {
           navigation.navigate("Login");
         }}
-      />
+      >
+        <Text
+          style={{
+            color: "dodgerblue",
+            fontSize: 15,
+            fontWeight: "bold",
+          }}
+        >
+          Back to Login
+        </Text>
+      </Pressable>
     </View>
   );
 }

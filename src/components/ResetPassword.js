@@ -9,6 +9,7 @@ import {
   Platform,
   Picker,
   Switch,
+  Pressable,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 
@@ -132,23 +133,57 @@ export default function ResetPassword({ navigation }) {
           />
         }
       />
-      <Button
-        title="Reset Password"
-        style={styles.button}
-        width={width * 0.9}
-        disabled={disable}
+      <Pressable
+        style={{
+          width: width * 0.85,
+          backgroundColor: "dodgerblue",
+          height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 7,
+          marginBottom: 20,
+        }}
+        android_ripple={{
+          color: "lightgrey",
+        }}
         onPress={() => {
           onClickButton();
         }}
-      />
-      <Button
-        title="Back to Login"
-        style={styles.button}
-        width={width * 0.9}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 15,
+            fontWeight: "bold",
+          }}
+        >
+          Reset Password
+        </Text>
+      </Pressable>
+
+      <Pressable
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 7,
+        }}
+        android_ripple={{
+          color: "lightgrey",
+        }}
         onPress={() => {
           navigation.navigate("Login");
         }}
-      />
+      >
+        <Text
+          style={{
+            color: "dodgerblue",
+            fontSize: 15,
+            fontWeight: "bold",
+          }}
+        >
+          Back To Login
+        </Text>
+      </Pressable>
     </View>
   );
 }

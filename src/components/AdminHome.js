@@ -51,6 +51,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="View Teachers"
           style={{
             backgroundColor: "orange",
+            width: width * 0.45,
           }}
           onPress={() => navigation.navigate("TeacherList", { userType })}
         />
@@ -58,6 +59,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="View Students"
           style={{
             backgroundColor: "lightgreen",
+            width: width * 0.45,
           }}
           onPress={() => navigation.navigate("StudentList", { userType })}
         />
@@ -65,6 +67,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="Search Students"
           style={{
             backgroundColor: "lightgreen",
+            width: width * 0.45,
           }}
           onPress={() => navigation.navigate("StudentSearch")}
         />
@@ -72,6 +75,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="View Classes"
           style={{
             backgroundColor: "lightblue",
+            width: width * 0.45,
           }}
           onPress={() => navigation.navigate("ClassList")}
         />
@@ -79,6 +83,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="Attendance Search"
           style={{
             backgroundColor: "aquamarine",
+            width: width * 0.45,
           }}
           onPress={() => navigation.navigate("AASearch")}
         />
@@ -86,6 +91,7 @@ export default function AdminHome({ navigation, title, onPress }) {
           title="Logout"
           style={{
             backgroundColor: "dodgerblue",
+            width: width * 0.45,
           }}
           onPress={() => {
             clearStorage();
@@ -104,6 +110,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? 40 : 0,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 });

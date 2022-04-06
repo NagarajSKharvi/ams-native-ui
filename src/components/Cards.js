@@ -13,7 +13,7 @@ export default function Cards({ onPress, title, style }) {
   return (
     <Pressable
       style={{
-        margin: 10,
+        margin: 5,
       }}
       onPress={onPress}
       android_ripple={{
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     alignSelf: "stretch",
-    borderRadius: 20,
+    borderRadius: 7,
     justifyContent: "center",
     alignItems: "center",
   },

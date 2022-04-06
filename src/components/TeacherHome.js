@@ -49,6 +49,7 @@ export default function TeacherHome({ navigation }) {
         <Cards
           title="Search Students"
           style={{
+            width: width * 0.45,
             backgroundColor: "lightgreen",
           }}
           onPress={() => navigation.navigate("StudentSearch")}
@@ -56,6 +57,7 @@ export default function TeacherHome({ navigation }) {
         <Cards
           title="View Classes"
           style={{
+            width: width * 0.45,
             backgroundColor: "lightblue",
           }}
           onPress={() => navigation.navigate("ClassList")}
@@ -63,6 +65,7 @@ export default function TeacherHome({ navigation }) {
         <Cards
           title="Attendance Search"
           style={{
+            width: width * 0.45,
             backgroundColor: "aquamarine",
           }}
           onPress={() => navigation.navigate("TASearch", { teachId: uId })}
@@ -70,6 +73,7 @@ export default function TeacherHome({ navigation }) {
         <Cards
           title="Add Attendance"
           style={{
+            width: width * 0.45,
             backgroundColor: "#de5135",
           }}
           onPress={() =>
@@ -79,6 +83,7 @@ export default function TeacherHome({ navigation }) {
         <Cards
           title="Logout"
           style={{
+            width: width * 0.45,
             backgroundColor: "dodgerblue",
           }}
           onPress={() => {
@@ -98,6 +103,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? 40 : 0,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 });

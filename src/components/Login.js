@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dimensions,
@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Platform,
+  Pressable,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,17 +22,6 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState();
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
   const [disable, setDisable] = useState(true);
-
-  React.useEffect(() => {
-    checkAllValues();
-  }, [username, password]);
-
-  const checkAllValues = () => {
-    if (username !== "" && password !== "") {
-      return setDisable(false);
-    }
-    return setDisable(true);
-  };
 
   const onClickButton = async () => {
     await fetch(global.hostUrl + "/login", {
@@ -66,6 +56,20 @@ export default function Login({ navigation }) {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    setUsername("");
+    setPassword("");
+  }, []);
+  const checkAllValues = () => {
+    if (username !== "" && password !== "") {
+      return setDisable(false);
+    }
+    return setDisable(true);
+  };
+  React.useEffect(() => {
+    checkAllValues();
+  }, [username, password]);
 
   return (
     <View style={styles.container}>
@@ -110,62 +114,110 @@ export default function Login({ navigation }) {
           />
         }
       />
-      <Button
+      {/* <Button
         title="Login"
         style={styles.button}
-        width={width * 0.9}
         disabled={disable}
+        
+      /> */}
+      <Pressable
+        style={{
+          width: width * 0.85,
+          backgroundColor: "dodgerblue",
+          height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 7,
+        }}
+        android_ripple={{
+          color: "lightgrey",
+        }}
         onPress={() => {
           onClickButton();
         }}
-      />
-      <View
-        style={{
-          flex: 1 / 4,
-          justifyContent: "center",
-        }}
+        disabled={disable}
       >
         <Text
           style={{
+            color: "white",
+            fontSize: 15,
             fontWeight: "bold",
-            fontSize: 10,
           }}
         >
-          <Button
-            title="Forgot Password"
-            style={styles.button}
-            width={width * 0.9}
-            height={1}
-            onPress={() => {
-              navigation.navigate("ResetPassword");
-            }}
-          />
+          Login
         </Text>
+      </Pressable>
+      <View
+        style={{
+          justifyContent: "center",
+          marginTop: 10,
+        }}
+      >
+        <Pressable
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 7,
+          }}
+          android_ripple={{
+            color: "lightgrey",
+          }}
+          onPress={() => {
+            navigation.navigate("ResetPassword");
+          }}
+        >
+          <Text
+            style={{
+              color: "dodgerblue",
+              fontSize: 15,
+              fontWeight: "bold",
+            }}
+          >
+            Forgot password?
+          </Text>
+        </Pressable>
       </View>
 
       <View
         style={{
-          flex: 1 / 4,
           justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          marginTop: 30,
         }}
       >
         <Text
           style={{
             fontWeight: "bold",
-            fontSize: 10,
+            fontSize: 14,
           }}
         >
           Don't have an account ?
-          <Button
-            title="Sign Up"
-            style={styles.button}
-            width={width * 0.9}
-            height={1}
-            onPress={() => {
-              navigation.navigate("Signup");
-            }}
-          />
         </Text>
+        <Pressable
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 0,
+            margin: 0,
+          }}
+          android_ripple={{
+            color: "lightgrey",
+          }}
+          onPress={() => {
+            navigation.navigate("Signup");
+          }}
+        >
+          <Text
+            style={{
+              color: "dodgerblue",
+              fontSize: 14,
+              fontWeight: "bold",
+            }}
+          >
+            Sign up
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -190,5 +242,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: width,
+    backgroundColor: "dodgerblue",
   },
 });
