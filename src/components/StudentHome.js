@@ -75,6 +75,17 @@ export default function StudentHome({ navigation }) {
         />
 
         <Cards
+          title="My Attendance Report"
+          style={{
+            backgroundColor: "lightblue",
+            width: width * 0.45,
+          }}
+          onPress={() =>
+            navigation.navigate("AllAttendancePercentage", { userType, uId })
+          }
+        />
+
+        <Cards
           title="Logout"
           style={{
             backgroundColor: "aquamarine",

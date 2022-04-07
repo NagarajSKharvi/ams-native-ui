@@ -21,6 +21,7 @@ import TCreate from "../components/Teacher/Create";
 import AttList from "../components/Attendance/List";
 import MyAttList from "../components/MyAttendance/List";
 import AttendancePercentage from "../components/MyAttendance/AttendancePercentage";
+import AllAttendancePercentage from "../components/MyAttendance/AllAttendancePercentage";
 import AttView from "../components/Attendance/Get";
 import AttCreate from "../components/Attendance/Create";
 import AttSearch from "../components/Attendance/SearchList";
@@ -158,6 +159,13 @@ function Routes() {
           <Stack.Screen
             name="AttendancePercentage"
             component={AttendancePercentage}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllAttendancePercentage"
+            component={AllAttendancePercentage}
             options={{
               headerShown: false,
             }}

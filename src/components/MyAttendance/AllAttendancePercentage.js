@@ -1,17 +1,19 @@
-import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Appbar, Provider } from "react-native-paper";
 
-export default function AttendancePercentage({ route, navigation }) {
+export default function AllAttendancePercentage({ route, navigation }) {
   const { userType, uId } = route.params;
-  const [data, setData] = React.useState([]);
+  const [subject, setSubject] = React.useState([]);
+  const [monthly, setMonthly] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     fetch(global.hostUrl + `/attendance/student/pecentage/all/${uId}`)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        setData(json["percentages"]);
+        setSubject(json["percentages"][0].percentages);
+        setMonthly(json["monthPercentages"]);
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false));
@@ -44,7 +46,7 @@ export default function AttendancePercentage({ route, navigation }) {
       // Flat List Item
       <View
         style={{
-          flexDirection: "row",
+          // flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
         }}
@@ -74,7 +76,7 @@ export default function AttendancePercentage({ route, navigation }) {
     <Provider>
       <Appbar.Header style={{}}>
         <Appbar.BackAction onPress={goBack} />
-        <Appbar.Content title="Attendance Status" subtitle="Attendance" />
+        <Appbar.Content title="Attendance Report" subtitle="Attendance" />
       </Appbar.Header>
       <View
         style={{
@@ -133,23 +135,39 @@ export default function AttendancePercentage({ route, navigation }) {
             More then 75% attendance
           </Text>
         </View>
-        <Text
-          style={{
-            marginVertical: 10,
-            fontSize: 16,
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          Semester Wise Report
-        </Text>
-        <FlatList
-          data={data}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}
-        />
       </View>
+      <Text
+        style={{
+          marginVertical: 10,
+          fontSize: 16,
+          textAlign: "center",
+          fontWeight: "bold",
+        }}
+      >
+        Subject Wise Report
+      </Text>
+      <FlatList
+        data={subject}
+        keyExtractor={(item, index) => index.toString()}
+        ItemSeparatorComponent={ItemSeparatorView}
+        renderItem={ItemView}
+      />
+      <Text
+        style={{
+          marginVertical: 10,
+          fontSize: 16,
+          textAlign: "center",
+          fontWeight: "bold",
+        }}
+      >
+        Monthly Report
+      </Text>
+      <FlatList
+        data={monthly}
+        keyExtractor={(item, index) => index.toString()}
+        ItemSeparatorComponent={ItemSeparatorView}
+        renderItem={ItemView}
+      />
     </Provider>
   );
 }
