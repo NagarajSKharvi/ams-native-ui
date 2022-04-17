@@ -48,6 +48,8 @@ const Create = ({ route, navigation }) => {
     fetch(global.hostUrl + `/ams/teacher-subject/${uId}`)
       .then((response) => response.json())
       .then((json) => {
+        setSubjectId(json[0].subject.subjectId);
+        setSectionId(json[0].subject.classSection.sectionId);
         setSubject(json);
       })
       .catch((error) => alert(error))
@@ -196,6 +198,7 @@ const Create = ({ route, navigation }) => {
                 }
                 value={s.subject.subjectId}
                 onPress={() => {
+                  setSubjectId(s.subject.subjectId);
                   setSectionId(s.subject.classSection.sectionId);
                 }}
               />

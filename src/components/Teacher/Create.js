@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Picker } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Button, TextInput, Appbar } from "react-native-paper";
+import { Button, TextInput, Appbar, Card, Chip } from "react-native-paper";
 
 const Create = ({ navigation }) => {
+  const [userType, setUserType] = useState("admin");
   const [teacherNumber, setTeacherNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -10,12 +11,27 @@ const Create = ({ navigation }) => {
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [subjectId, setSubjectId] = useState(1);
+  const [subject, setSubject] = useState([]);
   const [loading, isLoading] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetch(global.hostUrl + `/ams/subject`)
+      .then((response) => response.json())
+      .then((json) => {
+        setSubject(json);
+      })
+      .catch((error) => alert(error))
+      .finally(() => {});
+  }, []);
 
   const goBack = () => {
     navigation.navigate("TeacherList", { reload: true });
+  };
+
+  const createNavigate = () => {
+    teacherCreate();
+    navigation.navigate("TeacherList", { userType });
   };
 
   const teacherCreate = async () => {
@@ -30,6 +46,7 @@ const Create = ({ navigation }) => {
         gender,
         dob,
         mobileNumber,
+        subjectId,
       }),
       headers: { "Content-Type": "application/json" },
     })
@@ -85,10 +102,36 @@ const Create = ({ navigation }) => {
         value={mobileNumber?.toString()}
         onChangeText={(text) => setMobileNumber(text)}
       />
-
+      <Card>
+        <Chip>Select Subject</Chip>
+        <Picker
+          subjectId={subjectId}
+          style={{ height: 50, width: 250 }}
+          onValueChange={(itemValue, itemIndex) => setSubjectId(itemValue)}
+        >
+          {subject.map((s, i) => (
+            <Picker.Item
+              key={i}
+              label={
+                s.subjectId
+                  ? s.classSection.studClass.className +
+                    " " +
+                    s.classSection.sectionName +
+                    " " +
+                    s.subjectName
+                  : s.subjectName
+              }
+              value={s.subjectId}
+              onPress={() => {
+                setSubjectId(s.subjectId);
+              }}
+            />
+          ))}
+        </Picker>
+      </Card>
       <Button
         mode="contained"
-        onPress={teacherCreate}
+        onPress={createNavigate}
         style={{
           marginTop: 20,
         }}
