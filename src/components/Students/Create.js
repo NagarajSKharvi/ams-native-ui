@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Picker } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Button, TextInput, Appbar } from "react-native-paper";
+import { Button, TextInput, Appbar, Card, Chip } from "react-native-paper";
 
 const Create = ({ navigation }) => {
+  const [userType, setUserType] = useState("admin");
   const [rollNumber, setRollNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -10,12 +11,27 @@ const Create = ({ navigation }) => {
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [sectionId, setSectionId] = useState(1);
+  const [sectionName, setSectionName] = useState([]);
   const [loading, isLoading] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetch(global.hostUrl + `/ams/section`)
+      .then((response) => response.json())
+      .then((json) => {
+        setSectionName(json);
+      })
+      .catch((error) => alert(error))
+      .finally(() => {});
+  }, []);
 
   const goBack = () => {
     navigation.navigate("StudentList", { reload: true });
+  };
+
+  const createNavigate = () => {
+    studentCreate();
+    navigation.navigate("StudentList", { userType });
   };
 
   const studentCreate = async () => {
@@ -30,6 +46,7 @@ const Create = ({ navigation }) => {
         gender,
         dob,
         mobileNumber,
+        sectionId,
       }),
       headers: { "Content-Type": "application/json" },
     })
@@ -40,7 +57,6 @@ const Create = ({ navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         isLoading(false);
-        navigation.navigate("StudentList");
       });
   };
 
@@ -85,10 +101,28 @@ const Create = ({ navigation }) => {
         value={mobileNumber?.toString()}
         onChangeText={(text) => setMobileNumber(text)}
       />
-
+      <Card>
+        <Chip>Select Class & Section</Chip>
+        <Picker
+          sectionId={sectionId}
+          style={{ height: 50, width: 125 }}
+          onValueChange={(itemValue, itemIndex) => setSectionId(itemValue)}
+        >
+          {sectionName.map((s, i) => (
+            <Picker.Item
+              key={i}
+              label={s.studClass.className}
+              value={s.sectionId}
+              onPress={() => {
+                setSectionId(s.sectionId);
+              }}
+            />
+          ))}
+        </Picker>
+      </Card>
       <Button
         mode="contained"
-        onPress={studentCreate}
+        onPress={createNavigate}
         style={{
           marginTop: 20,
         }}

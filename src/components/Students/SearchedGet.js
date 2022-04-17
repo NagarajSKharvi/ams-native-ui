@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Button, TextInput, Appbar } from "react-native-paper";
-import StudentEdit from "./Edit";
+import { Alert, StyleSheet, View } from "react-native";
+import { Appbar, Button, Text, TextInput } from "react-native-paper";
 
 const SearchedGet = ({ route, navigation }) => {
   const { pId } = route.params;
@@ -50,34 +49,12 @@ const SearchedGet = ({ route, navigation }) => {
     navigation.navigate("StudentSearch");
   };
 
-  const studentDeleteAlert = () =>
-    Alert.alert("Are you sure you want to delete this Student?", "", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          console.log("Ok Pressed");
-          studentDelete();
-        },
-      },
-    ]);
+  const viewAttReport = () => {
+    navigation.navigate("AttendancePercentage", { userType, uId: pId });
+  };
 
-  const studentDelete = async () => {
-    setLoading(true);
-    await fetch(global.hostUrl + `/students/${pId}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false);
-        navigation.navigate("StudentList");
-      });
+  const viewSubMonthAttReport = () => {
+    navigation.navigate("AllAttendancePercentage", { userType, uId: pId });
   };
 
   return (
@@ -98,6 +75,24 @@ const SearchedGet = ({ route, navigation }) => {
         label="Mobile number"
         value={mobileNumber?.toString()}
       />
+      <Button
+        mode="contained"
+        onPress={viewAttReport}
+        style={{
+          marginTop: 20,
+        }}
+      >
+        <Text>Semester Wise Attendance Report</Text>
+      </Button>
+      <Button
+        mode="contained"
+        onPress={viewSubMonthAttReport}
+        style={{
+          marginTop: 20,
+        }}
+      >
+        <Text>Subject & Month Wise Attendance Report</Text>
+      </Button>
     </View>
   );
 };
