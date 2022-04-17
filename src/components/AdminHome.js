@@ -48,14 +48,6 @@ export default function AdminHome({ navigation, title, onPress }) {
 
       <View style={styles.container}>
         <Cards
-          title="View Teachers"
-          style={{
-            backgroundColor: "orange",
-            width: width * 0.45,
-          }}
-          onPress={() => navigation.navigate("TeacherList", { userType })}
-        />
-        <Cards
           title="View Students"
           style={{
             backgroundColor: "lightgreen",
@@ -63,6 +55,15 @@ export default function AdminHome({ navigation, title, onPress }) {
           }}
           onPress={() => navigation.navigate("StudentList", { userType })}
         />
+        <Cards
+          title="View Teachers"
+          style={{
+            backgroundColor: "orange",
+            width: width * 0.45,
+          }}
+          onPress={() => navigation.navigate("TeacherList", { userType })}
+        />
+
         <Cards
           title="Search Students"
           style={{

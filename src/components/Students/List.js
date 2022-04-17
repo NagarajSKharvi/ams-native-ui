@@ -35,8 +35,6 @@ export default function List({ route, navigation }) {
     }
   };
 
-  const handleSearch = () => console.log("Searching");
-
   const handleMore = () => {
     navigation.navigate("StudentCreate");
   };
@@ -51,7 +49,6 @@ export default function List({ route, navigation }) {
         <Appbar.Header style={styles.header}>
           <Appbar.BackAction onPress={goBack} />
           <Appbar.Content title="Student List" subtitle="Students" />
-          <Appbar.Action icon="magnify" onPress={handleSearch} />
           <Appbar.Action icon="dots-vertical" onPress={handleMore} />
         </Appbar.Header>
         <View style={styles.mainbox}>
