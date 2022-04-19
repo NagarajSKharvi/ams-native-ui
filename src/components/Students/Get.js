@@ -80,7 +80,7 @@ const Get = ({ route, navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
-        navigation.navigate("StudentList");
+        navigation.navigate("StudentList", { userType });
       });
   };
 

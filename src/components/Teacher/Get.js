@@ -5,6 +5,7 @@ import TeacherEdit from "./Edit";
 
 const Get = ({ route, navigation }) => {
   const { pId } = route.params;
+  const [userType, setUserType] = useState();
   const [id, setId] = useState("");
   const [teacherNumber, setTeacherNumber] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -33,6 +34,17 @@ const Get = ({ route, navigation }) => {
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false)); // change loading state
   }, []);
+
+  useEffect(() => {
+    readData();
+  }, [userType]);
+
+  const readData = async () => {
+    try {
+      const ut = await AsyncStorage.getItem("userType");
+      setUserType(ut);
+    } catch (e) {}
+  };
 
   const goBack = () => {
     navigation.navigate("TeacherList");
@@ -64,7 +76,7 @@ const Get = ({ route, navigation }) => {
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
-        navigation.navigate("TeacherList");
+        navigation.navigate("TeacherList", { userType });
       });
   };
 
